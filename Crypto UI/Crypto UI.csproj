@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <RootNamespace>Crypto_UI</RootNamespace>
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EncryptDecryptTrippleDES\EncryptDecryptTrippleDES.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="log4net">
+      <HintPath>..\Encrypt-Decrypt-Utility\lib\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="OSILogManager">
+      <HintPath>..\Encrypt-Decrypt-Utility\lib\OSILogManager.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

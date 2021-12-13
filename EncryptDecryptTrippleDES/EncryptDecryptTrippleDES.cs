@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 using System.Security.Cryptography;
 using System.Configuration;
 
-namespace Encrypt_Decrypt_Utility
+
+namespace EncryptDecryptTrippleDES
 {
-    class EncryptDecrypt
+    public sealed class EncryptDecryptTrippleDES
     {
         public static string decrypt(string message)
         {
@@ -16,7 +17,7 @@ namespace Encrypt_Decrypt_Utility
             byte[] cipherTextArr = Convert.FromBase64String(message);
             TripleDESCryptoServiceProvider svcProvider = new TripleDESCryptoServiceProvider();
             AppSettingsReader settingsReader = new AppSettingsReader();
-            string cipherKey = settingsReader.GetValue("cipherKey",typeof(String)).ToString();
+            string cipherKey = settingsReader.GetValue("cipherKey", typeof(String)).ToString();
             //keyArr = UTF8Encoding.UTF8.GetBytes(cipherKey);
             MD5CryptoServiceProvider hashmd5 = new MD5CryptoServiceProvider();
             keyArr = hashmd5.ComputeHash(UTF8Encoding.UTF8.GetBytes(cipherKey));

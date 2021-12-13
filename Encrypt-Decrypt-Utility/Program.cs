@@ -41,26 +41,29 @@ namespace Encrypt_Decrypt_Utility
 
                 if (performFunction == "E" || performFunction == "D")
                 {
-                    PerformEncryptionDecryption(filePath, columnIndex, skipRows, outputFile, performFunction);
+                    PerformEncryptionDecryption(filePath, columnIndex, skipRows, outputFile, performFunction,delimiter.ToCharArray()[0]);
                 }
                 else
                 {
-                    Console.WriteLine("No function is performed.");
+                    throw new Exception("IncorrectPerformMethod");
                 }
             }
             catch (Exception ex)
             {
-
-                throw;
-            }
-            finally
-            {
-
+                if(ex.Message == "IncorrectPerformMethod")
+                {
+                    OSILogManager.Logger.LogError($"Exception on main: No Such function found to perform. There are only two types of function, for encryption enter E and for decryption enter D");
+                }
+                else
+                {
+                    OSILogManager.Logger.LogError($"Exception on main: {ex.Message}");
+                    OSILogManager.Logger.LogError($"Inner Exception on main: {ex.InnerException.Message}");
+                }
             }
             
         }
 
-        private static void PerformEncryptionDecryption(string filePath, int columnIndex, int skipRows, string outputFile, string toPerform)
+        private static void PerformEncryptionDecryption(string filePath, int columnIndex, int skipRows, string outputFile, string toPerform, char delimiter)
         {
             using (StreamWriter output = new StreamWriter(outputFile, true))
             {
@@ -77,8 +80,8 @@ namespace Encrypt_Decrypt_Utility
                     }
                     while ((line = reader.ReadLine()) != null)
                     {
-                        string[] col = line.Split('|');
-                        string replacedWord = toPerform == "D" ? EncryptDecrypt.decrypt(col[columnIndex]) : EncryptDecrypt.encrypt(col[columnIndex]);
+                        string[] col = line.Split(delimiter);
+                        string replacedWord = toPerform == "D" ? EncryptDecryptTrippleDES.EncryptDecryptTrippleDES.decrypt(col[columnIndex]) : EncryptDecryptTrippleDES.EncryptDecryptTrippleDES.encrypt(col[columnIndex]);
                         line = line.Replace(col[columnIndex], replacedWord);
                         output.WriteLine(line);
                     }

@@ -18,6 +18,6 @@ Open for collaboration, Please fork this github repo and provide support for add
 
 Change log
 12/14/2021: 
-1. Bug: When error is found, it won't generate any file at all instead of iterating to next line. 
+1. Bug fixes: When error is found, it won't generate any file at all instead of iterating to next line. 
 2. Minor enhancement: Added support for CSV files in browse button.
 3. Minor enhancement: Code refactored. 

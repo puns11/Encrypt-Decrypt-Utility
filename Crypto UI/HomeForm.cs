@@ -12,9 +12,9 @@ using System.Windows.Forms;
 
 namespace Crypto_UI
 {
-    public partial class Form1 : Form
+    public partial class HomeForm : Form
     {
-        public Form1()
+        public HomeForm()
         {
             InitializeComponent();
         }
@@ -30,7 +30,7 @@ namespace Crypto_UI
                 CheckPathExists = true,
 
                 DefaultExt = "txt",
-                Filter = "txt files (*.txt)|*.txt",
+                Filter = "txt files (*.txt)|*.txt|csv files(*.csv)|*.csv",
                 FilterIndex = 2,
                 RestoreDirectory = true,
 
@@ -62,6 +62,7 @@ namespace Crypto_UI
                 string filePath = fileNameTxtBox.Text;
                 string delimiter = delimiterTxtBox.Text;
                 string performFunction = selectFnOnFileCmBox.Text;
+                string cryptoType = trippleDesRadioBtn.Checked ? trippleDesRadioBtn.Text : aesRadioBtn.Text;
                 int columnIndex = Convert.ToInt32(colIndexTxtBox.Text);
                 int skipRows = Convert.ToInt32(rowsSkipTxtBox.Text);
                 FileInfo fileInfo = new FileInfo(filePath);
@@ -75,7 +76,7 @@ namespace Crypto_UI
 
                 if (performFunction == "Encrypt" || performFunction == "Decrypt")
                 {
-                    PerformEncryptionDecryption(filePath, columnIndex, skipRows, outputFile, performFunction,delimiter.ToCharArray()[0]);
+                    PerformEncryptionDecryption(filePath, columnIndex, skipRows, outputFile, performFunction,delimiter.ToCharArray()[0], cryptoType);
                 }
                 else
                 {
@@ -101,33 +102,48 @@ namespace Crypto_UI
                 MessageBox.Show("Process Completed");
             }
         }
-        private static void PerformEncryptionDecryption(string filePath, int columnIndex, int skipRows, string outputFile, string toPerform,char delimiter)
+        private static void PerformEncryptionDecryption(string filePath, int columnIndex, int skipRows, string outputFile, string toPerform,char delimiter, string cryptoType)
         {
-            using (StreamWriter output = new StreamWriter(outputFile, true))
+            using (CryptoController.CryptoFactory factory = new CryptoController.CryptoFactory())
             {
-                using (StreamReader reader = new StreamReader(filePath))
+                var adapter = factory.CreateCryptoAdapter(cryptoType);
+                using (StreamWriter output = new StreamWriter(outputFile, true))
                 {
-                    string line;
-                    if (skipRows > 0)
+                    using (StreamReader reader = new StreamReader(filePath))
                     {
-                        for (int i = 0; i < skipRows; i++)
+                        string line;
+                        if (skipRows > 0)
                         {
-                            line = reader.ReadLine();
-                            output.WriteLine(line);
+                            for (int i = 0; i < skipRows; i++)
+                            {
+                                line = reader.ReadLine();
+                                output.WriteLine(line);
+                            }
                         }
-                    }
-                    while ((line = reader.ReadLine()) != null)
-                    {
-                        string[] col = line.Split(delimiter);
-                        string replacedWord = toPerform == "Decrypt" ? EncryptDecryptTrippleDES.EncryptDecryptTrippleDES.decrypt(col[columnIndex]) : EncryptDecryptTrippleDES.EncryptDecryptTrippleDES.encrypt(col[columnIndex]);
-                        line = line.Replace(col[columnIndex], replacedWord);
-                        output.WriteLine(line);
-                    }
-                    reader.Close();
+                        while ((line = reader.ReadLine()) != null)
+                        {
+                            try
+                            {
 
+
+                                string[] col = line.Split(delimiter);
+                                string replacedWord = toPerform == "Decrypt" ? adapter.Decrypt(col[columnIndex]) : adapter.Encrypt(col[columnIndex]);
+                                line = line.Replace(col[columnIndex].Trim(), replacedWord);
+                                output.WriteLine(line);
+                            }
+                            catch (Exception ex)
+                            {
+                                OSILogManager.Logger.LogError($"PerformEncryptionDecryption method failed: {ex.Message}");
+                                
+                            }
+                        }
+                        reader.Close();
+
+                    }
+                    output.Close();
                 }
-                output.Close();
             }
+                
         }
 
         private void sbmitOnTxtBtn_Click(object sender, EventArgs e)
@@ -135,7 +151,13 @@ namespace Crypto_UI
             try
             {
                 string toPerform = selectFnOnTxtCmBox.Text;
-                outputTxtBox.Text = toPerform == "Decrypt" ? EncryptDecryptTrippleDES.EncryptDecryptTrippleDES.decrypt(enterTxtBox.Text) : EncryptDecryptTrippleDES.EncryptDecryptTrippleDES.encrypt(enterTxtBox.Text);
+                string cryptoType = trippleDesTxtRadioBtn.Checked ? trippleDesTxtRadioBtn.Text : aesTxtRadioBtn.Text;
+                using (CryptoController.CryptoFactory factory = new CryptoController.CryptoFactory())
+                {
+                    var adapter = factory.CreateCryptoAdapter(cryptoType);
+                    outputTxtBox.Text = toPerform == "Decrypt" ? adapter.Decrypt(enterTxtBox.Text) : adapter.Encrypt(enterTxtBox.Text);
+                }
+                    
             }
             catch (Exception ex)
             {
@@ -158,6 +180,11 @@ namespace Crypto_UI
         private void Form1_Load(object sender, EventArgs e)
         {
             selectFnOnTxtCmBox.SelectedText = "Encrypt";
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
 
         }
     }

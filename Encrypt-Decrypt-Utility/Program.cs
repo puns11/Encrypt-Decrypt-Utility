@@ -30,6 +30,7 @@ namespace Encrypt_Decrypt_Utility
                 string performFunction = settingsReader.GetValue("performFunction", typeof(String)).ToString();
                 int columnIndex = (int)settingsReader.GetValue("columnIndex", typeof(Int32));
                 int skipRows = (int)settingsReader.GetValue("skipRows", typeof(Int32));
+                string cryptoType = (string)settingsReader.GetValue("cryptoType", typeof(String));
                 FileInfo fileInfo = new FileInfo(filePath);
                 Console.WriteLine(fileInfo.Directory);
                 var outputFile = Path.Combine(fileInfo.Directory.ToString(), fileInfo.Name + "-modified" + fileInfo.Extension);
@@ -41,7 +42,7 @@ namespace Encrypt_Decrypt_Utility
 
                 if (performFunction == "E" || performFunction == "D")
                 {
-                    PerformEncryptionDecryption(filePath, columnIndex, skipRows, outputFile, performFunction,delimiter.ToCharArray()[0]);
+                    PerformEncryptionDecryption(filePath, columnIndex, skipRows, outputFile, performFunction,delimiter.ToCharArray()[0], cryptoType);
                 }
                 else
                 {
@@ -63,33 +64,39 @@ namespace Encrypt_Decrypt_Utility
             
         }
 
-        private static void PerformEncryptionDecryption(string filePath, int columnIndex, int skipRows, string outputFile, string toPerform, char delimiter)
+        private static void PerformEncryptionDecryption(string filePath, int columnIndex, int skipRows, string outputFile, string toPerform, char delimiter, string cryptoType)
         {
-            using (StreamWriter output = new StreamWriter(outputFile, true))
+            using (CryptoController.CryptoFactory factory = new CryptoController.CryptoFactory())
             {
-                using (StreamReader reader = new StreamReader(filePath))
+                var adapter = factory.CreateCryptoAdapter(cryptoType);
+                using (StreamWriter output = new StreamWriter(outputFile, true))
                 {
-                    string line;
-                    if (skipRows > 0)
+                    using (StreamReader reader = new StreamReader(filePath))
                     {
-                        for (int i = 0; i < skipRows; i++)
+                        string line;
+                        if (skipRows > 0)
                         {
-                            line = reader.ReadLine();
+                            for (int i = 0; i < skipRows; i++)
+                            {
+                                line = reader.ReadLine();
+                                output.WriteLine(line);
+                            }
+                        }
+                        while ((line = reader.ReadLine()) != null)
+                        {
+                            string[] col = line.Split(delimiter);
+                            string replacedWord = toPerform == "D" ? adapter.Decrypt(col[columnIndex]) : adapter.Encrypt(col[columnIndex]);
+                            line = line.Replace(col[columnIndex], replacedWord);
                             output.WriteLine(line);
                         }
-                    }
-                    while ((line = reader.ReadLine()) != null)
-                    {
-                        string[] col = line.Split(delimiter);
-                        string replacedWord = toPerform == "D" ? EncryptDecryptTrippleDES.EncryptDecryptTrippleDES.decrypt(col[columnIndex]) : EncryptDecryptTrippleDES.EncryptDecryptTrippleDES.encrypt(col[columnIndex]);
-                        line = line.Replace(col[columnIndex], replacedWord);
-                        output.WriteLine(line);
-                    }
-                    reader.Close();
+                        reader.Close();
 
+                    }
+                    output.Close();
                 }
-                output.Close();
             }
+                
+             
         }
     }
 }

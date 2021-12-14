@@ -1,21 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Configuration;
-
+using System;
+using System.Text;
 
 namespace EncryptDecryptTrippleDES
 {
-    public sealed class EncryptDecryptTrippleDES : ICryptoAdapter
+    public sealed class EncryptDecryptAES : ICryptoAdapter
     {
         public string Decrypt(string message)
         {
             byte[] keyArr;
             byte[] cipherTextArr = Convert.FromBase64String(message);
-            TripleDESCryptoServiceProvider svcProvider = new TripleDESCryptoServiceProvider();            
+            AesCryptoServiceProvider svcProvider = new AesCryptoServiceProvider();
             AppSettingsReader settingsReader = new AppSettingsReader();
             string cipherKey = settingsReader.GetValue("cipherKey", typeof(String)).ToString();
             //keyArr = UTF8Encoding.UTF8.GetBytes(cipherKey);
@@ -35,7 +31,7 @@ namespace EncryptDecryptTrippleDES
         {
             byte[] keyArr;
             byte[] cipherTextArr = UTF8Encoding.UTF8.GetBytes(message);
-            TripleDESCryptoServiceProvider svcProvider = new TripleDESCryptoServiceProvider();
+            AesCryptoServiceProvider svcProvider = new AesCryptoServiceProvider();
             AppSettingsReader settingsReader = new AppSettingsReader();
             string cipherKey = settingsReader.GetValue("cipherKey", typeof(String)).ToString();
             MD5CryptoServiceProvider hashmd5 = new MD5CryptoServiceProvider();

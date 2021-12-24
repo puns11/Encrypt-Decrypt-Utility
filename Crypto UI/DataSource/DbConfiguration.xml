@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<connections>
+  <connection type="SQL">
+    <servername></servername>
+    <authentication></authentication>
+    <username></username>
+    <password></password>
+    <databasename></databasename>
+  </connection>
+</connections>

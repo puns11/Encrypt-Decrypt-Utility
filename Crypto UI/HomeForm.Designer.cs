@@ -55,20 +55,67 @@ namespace Crypto_UI
             this.label2 = new System.Windows.Forms.Label();
             this.selectFnOnTxtCmBox = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.fileTabpage = new System.Windows.Forms.TabPage();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.inputFileBrowseBtn = new System.Windows.Forms.Button();
+            this.inputFileTxtBox = new System.Windows.Forms.TextBox();
+            this.signGroupBox = new System.Windows.Forms.GroupBox();
+            this.signAsChkBox = new System.Windows.Forms.CheckBox();
+            this.signAsTxtBox = new System.Windows.Forms.TextBox();
+            this.signAsBrowseBtn = new System.Windows.Forms.Button();
+            this.outputGroupBox = new System.Windows.Forms.GroupBox();
+            this.outputFileBrowseBtn = new System.Windows.Forms.Button();
+            this.outputFIleTxtBox = new System.Windows.Forms.TextBox();
+            this.dbTabpage = new System.Windows.Forms.TabPage();
+            this.envComboBox = new System.Windows.Forms.ComboBox();
+            this.isBkUpReqCheckBox = new System.Windows.Forms.CheckBox();
+            this.dbBasedAesRadBtn = new System.Windows.Forms.RadioButton();
+            this.dbBasedTrippleDesRadBtn = new System.Windows.Forms.RadioButton();
+            this.dbBasedSaveBtn = new System.Windows.Forms.Button();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.dbBasedSelFnComboBox = new System.Windows.Forms.ComboBox();
+            this.label13 = new System.Windows.Forms.Label();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.inputFileEncryptFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.encryptFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.outputFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.databaseBasedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.fileBasedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.textBasedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.connectBtn = new System.Windows.Forms.Button();
+            this.tblNameComboBox = new System.Windows.Forms.ComboBox();
+            this.colNameComboBox = new System.Windows.Forms.ComboBox();
             this.tabControl.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.txtTabPage.SuspendLayout();
+            this.fileTabpage.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            this.signGroupBox.SuspendLayout();
+            this.outputGroupBox.SuspendLayout();
+            this.dbTabpage.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl
             // 
             this.tabControl.Controls.Add(this.tabPage2);
             this.tabControl.Controls.Add(this.txtTabPage);
-            this.tabControl.Location = new System.Drawing.Point(12, 12);
+            this.tabControl.Controls.Add(this.fileTabpage);
+            this.tabControl.Controls.Add(this.dbTabpage);
+            this.tabControl.Location = new System.Drawing.Point(12, 27);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(475, 226);
+            this.tabControl.Size = new System.Drawing.Size(509, 283);
             this.tabControl.TabIndex = 0;
             // 
             // tabPage2
@@ -90,9 +137,9 @@ namespace Crypto_UI
             this.tabPage2.Location = new System.Drawing.Point(4, 24);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(467, 198);
+            this.tabPage2.Size = new System.Drawing.Size(501, 255);
             this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "File Based";
+            this.tabPage2.Text = "File Content Based";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // aesRadioBtn
@@ -176,7 +223,7 @@ namespace Crypto_UI
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(20, 67);
+            this.label4.Location = new System.Drawing.Point(7, 67);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(75, 15);
             this.label4.TabIndex = 15;
@@ -202,7 +249,7 @@ namespace Crypto_UI
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(36, 38);
+            this.label5.Location = new System.Drawing.Point(7, 38);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(59, 15);
             this.label5.TabIndex = 9;
@@ -242,7 +289,7 @@ namespace Crypto_UI
             this.txtTabPage.Location = new System.Drawing.Point(4, 24);
             this.txtTabPage.Name = "txtTabPage";
             this.txtTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.txtTabPage.Size = new System.Drawing.Size(467, 198);
+            this.txtTabPage.Size = new System.Drawing.Size(501, 255);
             this.txtTabPage.TabIndex = 0;
             this.txtTabPage.Text = "Text Based";
             this.txtTabPage.UseVisualStyleBackColor = true;
@@ -290,7 +337,7 @@ namespace Crypto_UI
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(26, 132);
+            this.label3.Location = new System.Drawing.Point(7, 132);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(69, 15);
             this.label3.TabIndex = 4;
@@ -306,7 +353,7 @@ namespace Crypto_UI
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(37, 38);
+            this.label2.Location = new System.Drawing.Point(7, 38);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(58, 15);
             this.label2.TabIndex = 2;
@@ -333,28 +380,406 @@ namespace Crypto_UI
             this.label1.Text = "Select Function";
             this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
+            // fileTabpage
+            // 
+            this.fileTabpage.Controls.Add(this.groupBox3);
+            this.fileTabpage.Controls.Add(this.signGroupBox);
+            this.fileTabpage.Controls.Add(this.outputGroupBox);
+            this.fileTabpage.Location = new System.Drawing.Point(4, 24);
+            this.fileTabpage.Name = "fileTabpage";
+            this.fileTabpage.Padding = new System.Windows.Forms.Padding(3);
+            this.fileTabpage.Size = new System.Drawing.Size(501, 255);
+            this.fileTabpage.TabIndex = 2;
+            this.fileTabpage.Text = "Encrypt File";
+            this.fileTabpage.UseVisualStyleBackColor = true;
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.inputFileBrowseBtn);
+            this.groupBox3.Controls.Add(this.inputFileTxtBox);
+            this.groupBox3.Location = new System.Drawing.Point(6, 3);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(426, 54);
+            this.groupBox3.TabIndex = 6;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Input file";
+            // 
+            // inputFileBrowseBtn
+            // 
+            this.inputFileBrowseBtn.Location = new System.Drawing.Point(351, 22);
+            this.inputFileBrowseBtn.Name = "inputFileBrowseBtn";
+            this.inputFileBrowseBtn.Size = new System.Drawing.Size(73, 23);
+            this.inputFileBrowseBtn.TabIndex = 1;
+            this.inputFileBrowseBtn.Text = "Browse file";
+            this.inputFileBrowseBtn.UseVisualStyleBackColor = true;
+            this.inputFileBrowseBtn.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // inputFileTxtBox
+            // 
+            this.inputFileTxtBox.Location = new System.Drawing.Point(11, 22);
+            this.inputFileTxtBox.Name = "inputFileTxtBox";
+            this.inputFileTxtBox.Size = new System.Drawing.Size(334, 23);
+            this.inputFileTxtBox.TabIndex = 0;
+            // 
+            // signGroupBox
+            // 
+            this.signGroupBox.Controls.Add(this.signAsChkBox);
+            this.signGroupBox.Controls.Add(this.signAsTxtBox);
+            this.signGroupBox.Controls.Add(this.signAsBrowseBtn);
+            this.signGroupBox.Enabled = false;
+            this.signGroupBox.Location = new System.Drawing.Point(6, 63);
+            this.signGroupBox.Name = "signGroupBox";
+            this.signGroupBox.Size = new System.Drawing.Size(429, 61);
+            this.signGroupBox.TabIndex = 5;
+            this.signGroupBox.TabStop = false;
+            this.signGroupBox.Text = "Prove authenticity (sign)";
+            // 
+            // signAsChkBox
+            // 
+            this.signAsChkBox.AutoSize = true;
+            this.signAsChkBox.Location = new System.Drawing.Point(6, 22);
+            this.signAsChkBox.Name = "signAsChkBox";
+            this.signAsChkBox.Size = new System.Drawing.Size(68, 19);
+            this.signAsChkBox.TabIndex = 0;
+            this.signAsChkBox.Text = "Sign As:";
+            this.signAsChkBox.UseVisualStyleBackColor = true;
+            this.signAsChkBox.CheckedChanged += new System.EventHandler(this.signAsChkBox_CheckedChanged);
+            // 
+            // signAsTxtBox
+            // 
+            this.signAsTxtBox.Enabled = false;
+            this.signAsTxtBox.Location = new System.Drawing.Point(80, 20);
+            this.signAsTxtBox.Name = "signAsTxtBox";
+            this.signAsTxtBox.Size = new System.Drawing.Size(265, 23);
+            this.signAsTxtBox.TabIndex = 1;
+            // 
+            // signAsBrowseBtn
+            // 
+            this.signAsBrowseBtn.Enabled = false;
+            this.signAsBrowseBtn.Location = new System.Drawing.Point(353, 20);
+            this.signAsBrowseBtn.Name = "signAsBrowseBtn";
+            this.signAsBrowseBtn.Size = new System.Drawing.Size(73, 23);
+            this.signAsBrowseBtn.TabIndex = 2;
+            this.signAsBrowseBtn.Text = "Browse file";
+            this.signAsBrowseBtn.UseVisualStyleBackColor = true;
+            this.signAsBrowseBtn.Click += new System.EventHandler(this.signAsBrowseBtn_Click);
+            // 
+            // outputGroupBox
+            // 
+            this.outputGroupBox.Controls.Add(this.outputFileBrowseBtn);
+            this.outputGroupBox.Controls.Add(this.outputFIleTxtBox);
+            this.outputGroupBox.Enabled = false;
+            this.outputGroupBox.Location = new System.Drawing.Point(6, 130);
+            this.outputGroupBox.Name = "outputGroupBox";
+            this.outputGroupBox.Size = new System.Drawing.Size(429, 62);
+            this.outputGroupBox.TabIndex = 4;
+            this.outputGroupBox.TabStop = false;
+            this.outputGroupBox.Text = "Output";
+            // 
+            // outputFileBrowseBtn
+            // 
+            this.outputFileBrowseBtn.Location = new System.Drawing.Point(351, 21);
+            this.outputFileBrowseBtn.Name = "outputFileBrowseBtn";
+            this.outputFileBrowseBtn.Size = new System.Drawing.Size(75, 23);
+            this.outputFileBrowseBtn.TabIndex = 1;
+            this.outputFileBrowseBtn.Text = "Browse file";
+            this.outputFileBrowseBtn.UseVisualStyleBackColor = true;
+            // 
+            // outputFIleTxtBox
+            // 
+            this.outputFIleTxtBox.Location = new System.Drawing.Point(11, 22);
+            this.outputFIleTxtBox.Name = "outputFIleTxtBox";
+            this.outputFIleTxtBox.Size = new System.Drawing.Size(334, 23);
+            this.outputFIleTxtBox.TabIndex = 0;
+            // 
+            // dbTabpage
+            // 
+            this.dbTabpage.Controls.Add(this.colNameComboBox);
+            this.dbTabpage.Controls.Add(this.tblNameComboBox);
+            this.dbTabpage.Controls.Add(this.connectBtn);
+            this.dbTabpage.Controls.Add(this.envComboBox);
+            this.dbTabpage.Controls.Add(this.isBkUpReqCheckBox);
+            this.dbTabpage.Controls.Add(this.dbBasedAesRadBtn);
+            this.dbTabpage.Controls.Add(this.dbBasedTrippleDesRadBtn);
+            this.dbTabpage.Controls.Add(this.dbBasedSaveBtn);
+            this.dbTabpage.Controls.Add(this.label10);
+            this.dbTabpage.Controls.Add(this.label11);
+            this.dbTabpage.Controls.Add(this.label12);
+            this.dbTabpage.Controls.Add(this.dbBasedSelFnComboBox);
+            this.dbTabpage.Controls.Add(this.label13);
+            this.dbTabpage.Location = new System.Drawing.Point(4, 24);
+            this.dbTabpage.Name = "dbTabpage";
+            this.dbTabpage.Padding = new System.Windows.Forms.Padding(3);
+            this.dbTabpage.Size = new System.Drawing.Size(501, 255);
+            this.dbTabpage.TabIndex = 3;
+            this.dbTabpage.Text = "Database Based";
+            this.dbTabpage.UseVisualStyleBackColor = true;
+            // 
+            // envComboBox
+            // 
+            this.envComboBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.envComboBox.FormattingEnabled = true;
+            this.envComboBox.Location = new System.Drawing.Point(100, 37);
+            this.envComboBox.Name = "envComboBox";
+            this.envComboBox.Size = new System.Drawing.Size(359, 23);
+            this.envComboBox.TabIndex = 37;
+            // 
+            // isBkUpReqCheckBox
+            // 
+            this.isBkUpReqCheckBox.AutoSize = true;
+            this.isBkUpReqCheckBox.Location = new System.Drawing.Point(100, 127);
+            this.isBkUpReqCheckBox.Name = "isBkUpReqCheckBox";
+            this.isBkUpReqCheckBox.Size = new System.Drawing.Size(117, 19);
+            this.isBkUpReqCheckBox.TabIndex = 36;
+            this.isBkUpReqCheckBox.Text = "Is Back Required?";
+            this.isBkUpReqCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // dbBasedAesRadBtn
+            // 
+            this.dbBasedAesRadBtn.AutoSize = true;
+            this.dbBasedAesRadBtn.Location = new System.Drawing.Point(414, 12);
+            this.dbBasedAesRadBtn.Name = "dbBasedAesRadBtn";
+            this.dbBasedAesRadBtn.Size = new System.Drawing.Size(45, 19);
+            this.dbBasedAesRadBtn.TabIndex = 35;
+            this.dbBasedAesRadBtn.Text = "AES";
+            this.dbBasedAesRadBtn.UseVisualStyleBackColor = true;
+            // 
+            // dbBasedTrippleDesRadBtn
+            // 
+            this.dbBasedTrippleDesRadBtn.AutoSize = true;
+            this.dbBasedTrippleDesRadBtn.Checked = true;
+            this.dbBasedTrippleDesRadBtn.Location = new System.Drawing.Point(328, 12);
+            this.dbBasedTrippleDesRadBtn.Name = "dbBasedTrippleDesRadBtn";
+            this.dbBasedTrippleDesRadBtn.Size = new System.Drawing.Size(80, 19);
+            this.dbBasedTrippleDesRadBtn.TabIndex = 34;
+            this.dbBasedTrippleDesRadBtn.TabStop = true;
+            this.dbBasedTrippleDesRadBtn.Text = "TrippleDES";
+            this.dbBasedTrippleDesRadBtn.UseVisualStyleBackColor = true;
+            // 
+            // dbBasedSaveBtn
+            // 
+            this.dbBasedSaveBtn.Enabled = false;
+            this.dbBasedSaveBtn.Location = new System.Drawing.Point(100, 167);
+            this.dbBasedSaveBtn.Name = "dbBasedSaveBtn";
+            this.dbBasedSaveBtn.Size = new System.Drawing.Size(75, 23);
+            this.dbBasedSaveBtn.TabIndex = 29;
+            this.dbBasedSaveBtn.Text = "Submit";
+            this.dbBasedSaveBtn.UseVisualStyleBackColor = true;
+            this.dbBasedSaveBtn.Click += new System.EventHandler(this.dbBasedSaveBtn_Click);
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(9, 98);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(85, 15);
+            this.label10.TabIndex = 32;
+            this.label10.Text = "Column Name";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(6, 69);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(69, 15);
+            this.label11.TabIndex = 31;
+            this.label11.Text = "Table Name";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(6, 41);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(75, 15);
+            this.label12.TabIndex = 30;
+            this.label12.Text = "Environment";
+            // 
+            // dbBasedSelFnComboBox
+            // 
+            this.dbBasedSelFnComboBox.FormattingEnabled = true;
+            this.dbBasedSelFnComboBox.Items.AddRange(new object[] {
+            "Decrypt",
+            "Encrypt"});
+            this.dbBasedSelFnComboBox.Location = new System.Drawing.Point(100, 8);
+            this.dbBasedSelFnComboBox.Name = "dbBasedSelFnComboBox";
+            this.dbBasedSelFnComboBox.Size = new System.Drawing.Size(121, 23);
+            this.dbBasedSelFnComboBox.TabIndex = 24;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(6, 14);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(88, 15);
+            this.label13.TabIndex = 27;
+            this.label13.Text = "Select Function";
+            // 
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
+            // 
+            // inputFileEncryptFileDialog
+            // 
+            this.inputFileEncryptFileDialog.FileName = "inputFileEncryptFileDialog";
+            // 
+            // encryptFileDialog
+            // 
+            this.encryptFileDialog.FileName = "openFileDialog2";
+            // 
+            // outputFileDialog
+            // 
+            this.outputFileDialog.FileName = "openFileDialog2";
+            // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem,
+            this.helpToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(533, 24);
+            this.menuStrip1.TabIndex = 2;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // fileToolStripMenuItem
+            // 
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.databaseBasedToolStripMenuItem,
+            this.fileBasedToolStripMenuItem,
+            this.textBasedToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.settingsToolStripMenuItem,
+            this.toolStripSeparator2,
+            this.exitToolStripMenuItem});
+            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.fileToolStripMenuItem.Text = "File";
+            // 
+            // databaseBasedToolStripMenuItem
+            // 
+            this.databaseBasedToolStripMenuItem.Name = "databaseBasedToolStripMenuItem";
+            this.databaseBasedToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.databaseBasedToolStripMenuItem.Text = "Database Based";
+            this.databaseBasedToolStripMenuItem.Click += new System.EventHandler(this.databaseBasedToolStripMenuItem_Click);
+            // 
+            // fileBasedToolStripMenuItem
+            // 
+            this.fileBasedToolStripMenuItem.Name = "fileBasedToolStripMenuItem";
+            this.fileBasedToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.fileBasedToolStripMenuItem.Text = "File Based";
+            // 
+            // textBasedToolStripMenuItem
+            // 
+            this.textBasedToolStripMenuItem.Name = "textBasedToolStripMenuItem";
+            this.textBasedToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.textBasedToolStripMenuItem.Text = "Text Based";
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+            // 
+            // settingsToolStripMenuItem
+            // 
+            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.settingsToolStripMenuItem.Text = "Settings";
+            this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exitToolStripMenuItem.Text = "Exit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            // 
+            // helpToolStripMenuItem
+            // 
+            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.aboutToolStripMenuItem});
+            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.helpToolStripMenuItem.Text = "Help";
+            // 
+            // aboutToolStripMenuItem
+            // 
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.aboutToolStripMenuItem.Text = "About";
+            // 
+            // connectBtn
+            // 
+            this.connectBtn.BackgroundImage = global::Crypto_UI.Properties.Resources.connect_icon;
+            this.connectBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.connectBtn.Location = new System.Drawing.Point(465, 37);
+            this.connectBtn.Name = "connectBtn";
+            this.connectBtn.Size = new System.Drawing.Size(25, 23);
+            this.connectBtn.TabIndex = 38;
+            this.connectBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.TextAboveImage;
+            this.connectBtn.UseVisualStyleBackColor = false;
+            this.connectBtn.Click += new System.EventHandler(this.connectBtn_Click);
+            // 
+            // tblNameComboBox
+            // 
+            this.tblNameComboBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.tblNameComboBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.tblNameComboBox.Enabled = false;
+            this.tblNameComboBox.FormattingEnabled = true;
+            this.tblNameComboBox.Location = new System.Drawing.Point(100, 66);
+            this.tblNameComboBox.Name = "tblNameComboBox";
+            this.tblNameComboBox.Size = new System.Drawing.Size(359, 23);
+            this.tblNameComboBox.TabIndex = 39;
+            this.tblNameComboBox.SelectedIndexChanged += new System.EventHandler(this.tblNameComboBox_SelectedIndexChanged);
+            // 
+            // colNameComboBox
+            // 
+            this.colNameComboBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.colNameComboBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.colNameComboBox.Enabled = false;
+            this.colNameComboBox.FormattingEnabled = true;
+            this.colNameComboBox.Location = new System.Drawing.Point(100, 95);
+            this.colNameComboBox.Name = "colNameComboBox";
+            this.colNameComboBox.Size = new System.Drawing.Size(358, 23);
+            this.colNameComboBox.TabIndex = 40;
             // 
             // HomeForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(498, 249);
+            this.ClientSize = new System.Drawing.Size(533, 322);
             this.Controls.Add(this.tabControl);
+            this.Controls.Add(this.menuStrip1);
+            this.IsMdiContainer = true;
+            this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "HomeForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Crypto Tool";
+            this.Text = "Cipher Tool";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.tabControl.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
             this.txtTabPage.ResumeLayout(false);
             this.txtTabPage.PerformLayout();
+            this.fileTabpage.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
+            this.signGroupBox.ResumeLayout(false);
+            this.signGroupBox.PerformLayout();
+            this.outputGroupBox.ResumeLayout(false);
+            this.outputGroupBox.PerformLayout();
+            this.dbTabpage.ResumeLayout(false);
+            this.dbTabpage.PerformLayout();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -387,6 +812,45 @@ namespace Crypto_UI
         private System.Windows.Forms.RadioButton trippleDesRadioBtn;
         private System.Windows.Forms.RadioButton aesTxtRadioBtn;
         private System.Windows.Forms.RadioButton trippleDesTxtRadioBtn;
+        private System.Windows.Forms.TabPage fileTabpage;
+        private System.Windows.Forms.Button signAsBrowseBtn;
+        private System.Windows.Forms.TextBox signAsTxtBox;
+        private System.Windows.Forms.CheckBox signAsChkBox;
+        private System.Windows.Forms.GroupBox outputGroupBox;
+        private System.Windows.Forms.Button outputFileBrowseBtn;
+        private System.Windows.Forms.TextBox outputFIleTxtBox;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.TextBox inputFileTxtBox;
+        private System.Windows.Forms.GroupBox signGroupBox;
+        private System.Windows.Forms.Button inputFileBrowseBtn;
+        private System.Windows.Forms.OpenFileDialog inputFileEncryptFileDialog;
+        private System.Windows.Forms.OpenFileDialog encryptFileDialog;
+        private System.Windows.Forms.OpenFileDialog outputFileDialog;
+        private System.Windows.Forms.TabPage dbTabpage;
+        private System.Windows.Forms.CheckBox isBkUpReqCheckBox;
+        private System.Windows.Forms.RadioButton dbBasedAesRadBtn;
+        private System.Windows.Forms.RadioButton dbBasedTrippleDesRadBtn;
+        private System.Windows.Forms.Button dbBasedSaveBtn;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.ComboBox dbBasedSelFnComboBox;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem databaseBasedToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem fileBasedToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem textBasedToolStripMenuItem;
+        private System.Windows.Forms.ComboBox envComboBox;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
+        private System.Windows.Forms.Button connectBtn;
+        private System.Windows.Forms.ComboBox colNameComboBox;
+        private System.Windows.Forms.ComboBox tblNameComboBox;
     }
 }
 

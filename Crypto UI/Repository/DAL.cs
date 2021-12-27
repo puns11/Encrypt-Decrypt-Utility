@@ -1,6 +1,7 @@
 ﻿using Crypto_UI.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace Crypto_UI.Repository
 {
     public class DAL
     {
-        internal static List<TableUpdateModel> GetDataByTableName(string serverName, string tblName, string colName, string keyColName, string performFunction, string cryptoType)
+        internal static List<TableUpdateModel> GetDataByTableName(BackgroundWorker backgroundWorker, string serverName, string tblName, string colName, string keyColName, string performFunction, string cryptoType, bool isBackUpRequired)
         {
             List<TableUpdateModel> tblValueList = new List<TableUpdateModel>();
             var ds = new DataSet();
@@ -22,6 +23,20 @@ namespace Crypto_UI.Repository
                 var sourceConfig = dbConfigModel.Find(x => x.ServerName == serverName);
                 var connectionString = CommonMethods.GetConnectionString(sourceConfig);
                 var customWhereClauseString = string.Empty;
+                if(isBackUpRequired)
+                {
+                    using (SqlConnection sqlCon = new SqlConnection(connectionString))
+                    {
+                        sqlCon.Open();
+
+                        var sqlCmd = sqlCon.CreateCommand();
+                        sqlCmd.CommandText = $"select {colName},{keyColName} into {tblName}_{DateTime.UtcNow.Ticks} from {tblName} where {colName} != ''";
+                        sqlCmd.CommandType = CommandType.Text;
+                        int rowsAffected = sqlCmd.ExecuteNonQuery();
+                        OSILogManager.Logger.LogInfo($"Backup created successfully with table name {tblName}_{DateTime.UtcNow.Ticks}. Total rows affected: {rowsAffected.ToString()}");
+                    }
+
+                }
                 using (SqlConnection sqlCon = new SqlConnection(connectionString))
                 {
                     sqlCon.Open();
@@ -34,12 +49,15 @@ namespace Crypto_UI.Repository
                     adpt.Fill(ds);
                     using (CryptoController.CryptoFactory factory = new CryptoController.CryptoFactory())
                     {
+                        float rowCount = 0;
+                        var totalCount = ds.Tables[0].Rows.Count;
                         foreach (DataRow item in ds.Tables[0].Rows)
                         {
+                            var intPercentage = (int)Math.Round((rowCount / totalCount) * 100, 0);
+                            backgroundWorker.ReportProgress(intPercentage);
                             var originalValue = item[colName].ToString();
                             try
                             {
-
                                 var adapter = factory.CreateCryptoAdapter(cryptoType);
                                 var replacedValue = performFunction == "Decrypt" ? adapter.Decrypt(item[colName].ToString()) : adapter.Encrypt(item[colName].ToString());
 
@@ -68,11 +86,12 @@ namespace Crypto_UI.Repository
                             }
                             catch (Exception exc)
                             {
-
                                 OSILogManager.Logger.LogError($"Rows iteration encryption/decryption failed due to: {exc.Message}");
                                 OSILogManager.Logger.LogError($"Rows iteration encryption/decryption failed due to: {exc.InnerException?.Message}");
                             }
+                            rowCount += 1;
                         }
+                        rowCount = 0;
                     }
                 }
             }

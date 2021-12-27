@@ -67,6 +67,9 @@ namespace Crypto_UI
             this.outputFileBrowseBtn = new System.Windows.Forms.Button();
             this.outputFIleTxtBox = new System.Windows.Forms.TextBox();
             this.dbTabpage = new System.Windows.Forms.TabPage();
+            this.colNameComboBox = new System.Windows.Forms.ComboBox();
+            this.tblNameComboBox = new System.Windows.Forms.ComboBox();
+            this.connectBtn = new System.Windows.Forms.Button();
             this.envComboBox = new System.Windows.Forms.ComboBox();
             this.isBkUpReqCheckBox = new System.Windows.Forms.CheckBox();
             this.dbBasedAesRadBtn = new System.Windows.Forms.RadioButton();
@@ -92,9 +95,12 @@ namespace Crypto_UI
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.connectBtn = new System.Windows.Forms.Button();
-            this.tblNameComboBox = new System.Windows.Forms.ComboBox();
-            this.colNameComboBox = new System.Windows.Forms.ComboBox();
+            this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.applicationLogsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
+            this.backgroundWorker = new System.ComponentModel.BackgroundWorker();
+            this.sqlConBackGroundWorker = new System.ComponentModel.BackgroundWorker();
             this.tabControl.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.txtTabPage.SuspendLayout();
@@ -104,6 +110,7 @@ namespace Crypto_UI
             this.outputGroupBox.SuspendLayout();
             this.dbTabpage.SuspendLayout();
             this.menuStrip1.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl
@@ -112,10 +119,10 @@ namespace Crypto_UI
             this.tabControl.Controls.Add(this.txtTabPage);
             this.tabControl.Controls.Add(this.fileTabpage);
             this.tabControl.Controls.Add(this.dbTabpage);
-            this.tabControl.Location = new System.Drawing.Point(12, 27);
+            this.tabControl.Location = new System.Drawing.Point(0, 27);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(509, 283);
+            this.tabControl.Size = new System.Drawing.Size(509, 289);
             this.tabControl.TabIndex = 0;
             // 
             // tabPage2
@@ -137,7 +144,7 @@ namespace Crypto_UI
             this.tabPage2.Location = new System.Drawing.Point(4, 24);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(501, 255);
+            this.tabPage2.Size = new System.Drawing.Size(501, 261);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "File Content Based";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -257,6 +264,7 @@ namespace Crypto_UI
             // 
             // selectFnOnFileCmBox
             // 
+            this.selectFnOnFileCmBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.selectFnOnFileCmBox.FormattingEnabled = true;
             this.selectFnOnFileCmBox.Items.AddRange(new object[] {
             "Decrypt",
@@ -289,7 +297,7 @@ namespace Crypto_UI
             this.txtTabPage.Location = new System.Drawing.Point(4, 24);
             this.txtTabPage.Name = "txtTabPage";
             this.txtTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.txtTabPage.Size = new System.Drawing.Size(501, 255);
+            this.txtTabPage.Size = new System.Drawing.Size(501, 261);
             this.txtTabPage.TabIndex = 0;
             this.txtTabPage.Text = "Text Based";
             this.txtTabPage.UseVisualStyleBackColor = true;
@@ -361,6 +369,7 @@ namespace Crypto_UI
             // 
             // selectFnOnTxtCmBox
             // 
+            this.selectFnOnTxtCmBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.selectFnOnTxtCmBox.FormattingEnabled = true;
             this.selectFnOnTxtCmBox.Items.AddRange(new object[] {
             "Decrypt",
@@ -388,7 +397,7 @@ namespace Crypto_UI
             this.fileTabpage.Location = new System.Drawing.Point(4, 24);
             this.fileTabpage.Name = "fileTabpage";
             this.fileTabpage.Padding = new System.Windows.Forms.Padding(3);
-            this.fileTabpage.Size = new System.Drawing.Size(501, 255);
+            this.fileTabpage.Size = new System.Drawing.Size(501, 261);
             this.fileTabpage.TabIndex = 2;
             this.fileTabpage.Text = "Encrypt File";
             this.fileTabpage.UseVisualStyleBackColor = true;
@@ -510,10 +519,45 @@ namespace Crypto_UI
             this.dbTabpage.Location = new System.Drawing.Point(4, 24);
             this.dbTabpage.Name = "dbTabpage";
             this.dbTabpage.Padding = new System.Windows.Forms.Padding(3);
-            this.dbTabpage.Size = new System.Drawing.Size(501, 255);
+            this.dbTabpage.Size = new System.Drawing.Size(501, 261);
             this.dbTabpage.TabIndex = 3;
             this.dbTabpage.Text = "Database Based";
             this.dbTabpage.UseVisualStyleBackColor = true;
+            // 
+            // colNameComboBox
+            // 
+            this.colNameComboBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.colNameComboBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.colNameComboBox.Enabled = false;
+            this.colNameComboBox.FormattingEnabled = true;
+            this.colNameComboBox.Location = new System.Drawing.Point(100, 95);
+            this.colNameComboBox.Name = "colNameComboBox";
+            this.colNameComboBox.Size = new System.Drawing.Size(358, 23);
+            this.colNameComboBox.TabIndex = 40;
+            // 
+            // tblNameComboBox
+            // 
+            this.tblNameComboBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.tblNameComboBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.tblNameComboBox.Enabled = false;
+            this.tblNameComboBox.FormattingEnabled = true;
+            this.tblNameComboBox.Location = new System.Drawing.Point(100, 66);
+            this.tblNameComboBox.Name = "tblNameComboBox";
+            this.tblNameComboBox.Size = new System.Drawing.Size(359, 23);
+            this.tblNameComboBox.TabIndex = 39;
+            this.tblNameComboBox.SelectedIndexChanged += new System.EventHandler(this.tblNameComboBox_SelectedIndexChanged);
+            // 
+            // connectBtn
+            // 
+            this.connectBtn.BackgroundImage = global::Crypto_UI.Properties.Resources.connect_icon;
+            this.connectBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.connectBtn.Location = new System.Drawing.Point(465, 37);
+            this.connectBtn.Name = "connectBtn";
+            this.connectBtn.Size = new System.Drawing.Size(25, 23);
+            this.connectBtn.TabIndex = 38;
+            this.connectBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.TextAboveImage;
+            this.connectBtn.UseVisualStyleBackColor = false;
+            this.connectBtn.Click += new System.EventHandler(this.connectBtn_Click);
             // 
             // envComboBox
             // 
@@ -527,6 +571,7 @@ namespace Crypto_UI
             // isBkUpReqCheckBox
             // 
             this.isBkUpReqCheckBox.AutoSize = true;
+            this.isBkUpReqCheckBox.Enabled = false;
             this.isBkUpReqCheckBox.Location = new System.Drawing.Point(100, 127);
             this.isBkUpReqCheckBox.Name = "isBkUpReqCheckBox";
             this.isBkUpReqCheckBox.Size = new System.Drawing.Size(117, 19);
@@ -570,7 +615,7 @@ namespace Crypto_UI
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(9, 98);
+            this.label10.Location = new System.Drawing.Point(6, 98);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(85, 15);
             this.label10.TabIndex = 32;
@@ -596,6 +641,7 @@ namespace Crypto_UI
             // 
             // dbBasedSelFnComboBox
             // 
+            this.dbBasedSelFnComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.dbBasedSelFnComboBox.FormattingEnabled = true;
             this.dbBasedSelFnComboBox.Items.AddRange(new object[] {
             "Decrypt",
@@ -634,10 +680,11 @@ namespace Crypto_UI
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.helpToolStripMenuItem});
+            this.helpToolStripMenuItem,
+            this.viewToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(533, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(510, 24);
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -658,43 +705,43 @@ namespace Crypto_UI
             // databaseBasedToolStripMenuItem
             // 
             this.databaseBasedToolStripMenuItem.Name = "databaseBasedToolStripMenuItem";
-            this.databaseBasedToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.databaseBasedToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
             this.databaseBasedToolStripMenuItem.Text = "Database Based";
             this.databaseBasedToolStripMenuItem.Click += new System.EventHandler(this.databaseBasedToolStripMenuItem_Click);
             // 
             // fileBasedToolStripMenuItem
             // 
             this.fileBasedToolStripMenuItem.Name = "fileBasedToolStripMenuItem";
-            this.fileBasedToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.fileBasedToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
             this.fileBasedToolStripMenuItem.Text = "File Based";
             // 
             // textBasedToolStripMenuItem
             // 
             this.textBasedToolStripMenuItem.Name = "textBasedToolStripMenuItem";
-            this.textBasedToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.textBasedToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
             this.textBasedToolStripMenuItem.Text = "Text Based";
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(153, 6);
             // 
             // settingsToolStripMenuItem
             // 
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
             this.settingsToolStripMenuItem.Text = "Settings";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(153, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -704,61 +751,61 @@ namespace Crypto_UI
             this.aboutToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
-            this.helpToolStripMenuItem.Text = "Help";
+            this.helpToolStripMenuItem.Text = "View";
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
-            this.aboutToolStripMenuItem.Text = "About";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.aboutToolStripMenuItem.Text = "Application Logs";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
-            // connectBtn
+            // viewToolStripMenuItem
             // 
-            this.connectBtn.BackgroundImage = global::Crypto_UI.Properties.Resources.connect_icon;
-            this.connectBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.connectBtn.Location = new System.Drawing.Point(465, 37);
-            this.connectBtn.Name = "connectBtn";
-            this.connectBtn.Size = new System.Drawing.Size(25, 23);
-            this.connectBtn.TabIndex = 38;
-            this.connectBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.TextAboveImage;
-            this.connectBtn.UseVisualStyleBackColor = false;
-            this.connectBtn.Click += new System.EventHandler(this.connectBtn_Click);
+            this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.applicationLogsToolStripMenuItem});
+            this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
+            this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.viewToolStripMenuItem.Text = "Help";
             // 
-            // tblNameComboBox
+            // applicationLogsToolStripMenuItem
             // 
-            this.tblNameComboBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.tblNameComboBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.tblNameComboBox.Enabled = false;
-            this.tblNameComboBox.FormattingEnabled = true;
-            this.tblNameComboBox.Location = new System.Drawing.Point(100, 66);
-            this.tblNameComboBox.Name = "tblNameComboBox";
-            this.tblNameComboBox.Size = new System.Drawing.Size(359, 23);
-            this.tblNameComboBox.TabIndex = 39;
-            this.tblNameComboBox.SelectedIndexChanged += new System.EventHandler(this.tblNameComboBox_SelectedIndexChanged);
+            this.applicationLogsToolStripMenuItem.Name = "applicationLogsToolStripMenuItem";
+            this.applicationLogsToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.applicationLogsToolStripMenuItem.Text = "About";
+            this.applicationLogsToolStripMenuItem.Click += new System.EventHandler(this.applicationLogsToolStripMenuItem_Click);
             // 
-            // colNameComboBox
+            // statusStrip1
             // 
-            this.colNameComboBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.colNameComboBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.colNameComboBox.Enabled = false;
-            this.colNameComboBox.FormattingEnabled = true;
-            this.colNameComboBox.Location = new System.Drawing.Point(100, 95);
-            this.colNameComboBox.Name = "colNameComboBox";
-            this.colNameComboBox.Size = new System.Drawing.Size(358, 23);
-            this.colNameComboBox.TabIndex = 40;
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripProgressBar1});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 318);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(510, 22);
+            this.statusStrip1.TabIndex = 44;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // toolStripProgressBar1
+            // 
+            this.toolStripProgressBar1.Name = "toolStripProgressBar1";
+            this.toolStripProgressBar1.Size = new System.Drawing.Size(100, 16);
+            this.toolStripProgressBar1.Visible = false;
             // 
             // HomeForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(533, 322);
+            this.ClientSize = new System.Drawing.Size(510, 340);
+            this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.tabControl);
             this.Controls.Add(this.menuStrip1);
+            this.HelpButton = true;
             this.IsMdiContainer = true;
             this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "HomeForm";
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Cipher Tool";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -778,6 +825,8 @@ namespace Crypto_UI
             this.dbTabpage.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -851,6 +900,12 @@ namespace Crypto_UI
         private System.Windows.Forms.Button connectBtn;
         private System.Windows.Forms.ComboBox colNameComboBox;
         private System.Windows.Forms.ComboBox tblNameComboBox;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar1;
+        private System.ComponentModel.BackgroundWorker backgroundWorker;
+        private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem applicationLogsToolStripMenuItem;
+        private System.ComponentModel.BackgroundWorker sqlConBackGroundWorker;
     }
 }
 

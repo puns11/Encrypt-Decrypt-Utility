@@ -25,6 +25,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="ApplicationLogForm - Copy.Designer.cs">
+      <DependentUpon>ApplicationLogForm.Designer.cs</DependentUpon>
+    </Compile>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -33,6 +36,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="ApplicationLogForm - Copy.resx">
+      <DependentUpon>ApplicationLogForm.resx</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Update="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

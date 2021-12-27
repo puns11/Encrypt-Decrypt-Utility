@@ -1,6 +1,7 @@
 ﻿using Crypto_UI.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
@@ -154,7 +155,7 @@ namespace Crypto_UI.Repository
                 var connectionString = GetConnectionString(dbConfigModel);
                 using (SqlConnection sqlCon = new SqlConnection(connectionString))
                 {
-                    OSILogManager.Logger.LogInfo("SQLDataAdapter: Connection created using Connection String: " + connectionString);
+                    OSILogManager.Logger.LogInfo("SQLDataAdapter: Connection created with server: " + dbConfigModel.ServerName);
 
                     if (sqlCon.State == ConnectionState.Closed)
                     {
@@ -276,7 +277,7 @@ namespace Crypto_UI.Repository
             return dict;
         }
 
-        internal static List<string> GetTables(string serverName)
+        internal static List<string> GetTables(string serverName, BackgroundWorker backgroundWorker)
         {
 
             List<string> tblList = new List<string>();
@@ -305,8 +306,12 @@ namespace Crypto_UI.Repository
 
                         var adpt = new SqlDataAdapter(sqlCmd);
                         adpt.Fill(tbDS);
+                        float rowCount = 0;
+                        var totalCount = ds.Tables[0].Rows.Count;
                         foreach (DataRow item in tbDS.Tables[0].Rows)
                         {
+                            var intPercentage = (int)Math.Round((rowCount / totalCount) * 100, 0);
+                            backgroundWorker.ReportProgress(intPercentage);
                             tblList.Add(item[0].ToString());
                         }
                         //}

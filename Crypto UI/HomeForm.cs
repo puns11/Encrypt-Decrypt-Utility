@@ -15,11 +15,133 @@ namespace Crypto_UI
 {
     public partial class HomeForm : Form
     {
+        public string dbBasedSelFnComboBoxText { get; set; }
+        public string envComboBoxText { get; set; }
+        public string tblNameComboBoxText { get; set; }
+        public string colNameComboBoxText { get; set; }
+        public bool dbBasedTrippleDesRadBtnChecked { get; set; }
+        public string dbBasedAesRadBtnText { get; set; }
+        public string dbBasedTrippleDesRadBtnText { get; set; }
+        public string keyColNameText { get; set; }
+        public bool isBackRequired { get; set; }
+        public List<string> tblList { get; set; }
         public HomeForm()
         {
             InitializeComponent();
+            tblList = new List<string>();
+            backgroundWorker.WorkerReportsProgress = true;
+            backgroundWorker.DoWork += new DoWorkEventHandler(backgroundWorker_DoWork);
+            backgroundWorker.ProgressChanged += new ProgressChangedEventHandler(backgroundWorker_ProgressChanged);
+            backgroundWorker.RunWorkerCompleted += BackgroundWorker_RunWorkerCompleted;
+
+
+            sqlConBackGroundWorker.WorkerReportsProgress = true;
+            sqlConBackGroundWorker.DoWork += new DoWorkEventHandler(sqlConBackgroundWorker_DoWork);
+            sqlConBackGroundWorker.ProgressChanged += new ProgressChangedEventHandler(backgroundWorker_ProgressChanged);
+            sqlConBackGroundWorker.RunWorkerCompleted += sqlConBackgroundWorker_RunWorkerCompleted;
+
         }
 
+        private void BackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            foreach (Control item in this.Controls)
+            {
+                item.Enabled = true;
+            }
+            toolStripProgressBar1.Visible = false;
+        }
+        private void sqlConBackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            foreach (Control item in this.Controls)
+            {
+                item.Enabled = true;
+            }
+            tblNameComboBox.Enabled = true;
+            //populate table names
+            tblNameComboBox.Items.Clear();
+            foreach (var item in tblList)
+            {
+                tblNameComboBox.Items.Add(item);
+            }
+            colNameComboBox.Enabled = true;
+            toolStripProgressBar1.Visible = false;
+        }
+
+        private void dbBasedSaveBtn_Click(object sender, EventArgs e)
+        {
+            dbBasedTrippleDesRadBtnChecked = dbBasedTrippleDesRadBtn.Checked;
+            dbBasedTrippleDesRadBtnText = dbBasedTrippleDesRadBtn.Text;
+            dbBasedAesRadBtnText = dbBasedAesRadBtn.Text;
+            colNameComboBoxText = colNameComboBox.Text;
+            tblNameComboBoxText = tblNameComboBox.Text;
+            envComboBoxText = envComboBox.Text;
+            dbBasedSelFnComboBoxText = dbBasedSelFnComboBox.Text;
+            dbBasedTrippleDesRadBtnText = dbBasedTrippleDesRadBtn.Text;
+            keyColNameText = colNameComboBox.SelectedValue.ToString();
+            toolStripProgressBar1.Visible = true;
+            isBackRequired = isBkUpReqCheckBox.Checked;
+            foreach (Control item in this.Controls)
+            {
+                item.Enabled = false;
+            }
+            backgroundWorker.RunWorkerAsync();
+            
+        }
+        void sqlConBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            var ds = Repository.CommonMethods.LoadDbConfig();
+            var dbConfigModel = Repository.CommonMethods.ConvertDataTable<Models.DbConfigModel>(ds.Tables[0]);
+            if (Repository.CommonMethods.ConnectDb(dbConfigModel.Find(x => x.ServerName == envComboBoxText)))
+            {
+                MessageBox.Show("Connection Successful");
+                tblList = Repository.CommonMethods.GetTables(envComboBoxText,sqlConBackGroundWorker);
+            }
+            else
+            {
+                MessageBox.Show($"Unable to connect to Server: {envComboBoxText}");
+            }
+        }
+
+        void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(dbBasedSelFnComboBoxText) && !string.IsNullOrEmpty(envComboBoxText) && !string.IsNullOrEmpty(tblNameComboBoxText) && !string.IsNullOrEmpty(colNameComboBoxText))
+            {
+                
+                string cryptoType = dbBasedTrippleDesRadBtnChecked ? dbBasedTrippleDesRadBtnText : dbBasedAesRadBtnText;
+                string performFunction = dbBasedSelFnComboBoxText;
+                string tblName = tblNameComboBoxText;
+                string colName = colNameComboBoxText;
+                string keyColName = keyColNameText;
+                string serverName = envComboBoxText;
+                bool isBackUpRequired = isBackRequired;
+                if (string.IsNullOrEmpty(keyColName))
+                {
+                    MessageBox.Show("No primary key found for this table, update failed.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                if (performFunction == "Encrypt" || performFunction == "Decrypt")
+                {
+                    PerformDbEncryptionDecryption(serverName, tblName, colName, keyColName, performFunction, cryptoType, isBackUpRequired);
+                }
+                else
+                {
+                    throw new Exception("IncorrectPerformMethod");
+                }
+                MessageBox.Show("Changes completed.");
+
+            }
+            else
+            {
+                MessageBox.Show("Please required fields.");
+                return;
+            }
+        }
+        
+        void backgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            toolStripProgressBar1.Value = e.ProgressPercentage;
+        }
         private void button2_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog1 = new OpenFileDialog
@@ -64,7 +186,19 @@ namespace Crypto_UI
                 string delimiter = delimiterTxtBox.Text;
                 string performFunction = selectFnOnFileCmBox.Text;
                 string cryptoType = trippleDesRadioBtn.Checked ? trippleDesRadioBtn.Text : aesRadioBtn.Text;
-                int columnIndex = Convert.ToInt32(colIndexTxtBox.Text);
+                List<int> colNumbers = new List<int>();
+                if (colIndexTxtBox.Text.Contains(","))
+                {
+                    var colNumberInput = colIndexTxtBox.Text.Split(',');
+                    foreach (var item in colNumberInput)
+                    {
+                        colNumbers.Add(Convert.ToInt32(item));
+                    }
+                }
+                else
+                {
+                    colNumbers.Append(Convert.ToInt32(colIndexTxtBox.Text));
+                }
                 int skipRows = Convert.ToInt32(rowsSkipTxtBox.Text);
                 FileInfo fileInfo = new FileInfo(filePath);
                 Console.WriteLine(fileInfo.Directory);
@@ -77,7 +211,7 @@ namespace Crypto_UI
 
                 if (performFunction == "Encrypt" || performFunction == "Decrypt")
                 {
-                    PerformEncryptionDecryption(filePath, columnIndex, skipRows, outputFile, performFunction,delimiter.ToCharArray()[0], cryptoType);
+                    PerformEncryptionDecryption(filePath, colNumbers, skipRows, outputFile, performFunction,delimiter.ToCharArray()[0], cryptoType);
                 }
                 else
                 {
@@ -103,7 +237,7 @@ namespace Crypto_UI
                 MessageBox.Show("Process Completed");
             }
         }
-        private static void PerformEncryptionDecryption(string filePath, int columnIndex, int skipRows, string outputFile, string toPerform,char delimiter, string cryptoType)
+        private static void PerformEncryptionDecryption(string filePath, List<int> columnIndex, int skipRows, string outputFile, string toPerform,char delimiter, string cryptoType)
         {
             using (CryptoController.CryptoFactory factory = new CryptoController.CryptoFactory())
             {
@@ -121,15 +255,18 @@ namespace Crypto_UI
                                 output.WriteLine(line);
                             }
                         }
+                        
                         while ((line = reader.ReadLine()) != null)
                         {
                             try
                             {
-
-
                                 string[] col = line.Split(delimiter);
-                                string replacedWord = toPerform == "Decrypt" ? adapter.Decrypt(col[columnIndex]) : adapter.Encrypt(col[columnIndex]);
-                                line = line.Replace(col[columnIndex].Trim(), replacedWord);
+                                foreach (int colIndex in columnIndex)
+                                {
+                                    string replacedWord = toPerform == "Decrypt" ? adapter.Decrypt(col[colIndex]) : adapter.Encrypt(col[colIndex]);
+                                    line = line.Replace(col[colIndex].Trim(), replacedWord);
+                                }
+                                
                                 output.WriteLine(line);
                             }
                             catch (Exception ex)
@@ -280,7 +417,9 @@ namespace Crypto_UI
         {
             DbConfigurationForm form1 = new DbConfigurationForm();
             form1.dbConfigSaveBtn_Click += new EventHandler(dbConfigSaveBtn_Click);
+            form1.WindowState = FormWindowState.Normal;
             form1.Show();
+            form1.StartPosition = FormStartPosition.CenterScreen;
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -297,27 +436,14 @@ namespace Crypto_UI
 
         private void connectBtn_Click(object sender, EventArgs e)
         {
-            var ds = Repository.CommonMethods.LoadDbConfig();
-            var dbConfigModel = Repository.CommonMethods.ConvertDataTable<Models.DbConfigModel>(ds.Tables[0]);
-            if (Repository.CommonMethods.ConnectDb(dbConfigModel.Find(x => x.ServerName == envComboBox.Text)))
+            envComboBoxText = envComboBox.Text;
+            toolStripProgressBar1.Visible = true;
+            
+            foreach (Control item in this.Controls)
             {
-                MessageBox.Show("Connection Successful");
-                tblNameComboBox.Enabled = true;
-                //populate table names
-                tblNameComboBox.Items.Clear();
-                List<string> tblList = new List<string>();
-                tblList = Repository.CommonMethods.GetTables(envComboBox.Text);
-                foreach (var item in tblList)
-                {
-                    tblNameComboBox.Items.Add(item);
-                }
-                colNameComboBox.Enabled = true;
-
+                item.Enabled = false;
             }
-            else
-            {
-                MessageBox.Show($"Unable to connect to Server: {envComboBox.Text}");
-            }
+            sqlConBackGroundWorker.RunWorkerAsync();
         }
 
         private void tblNameComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -356,6 +482,7 @@ namespace Crypto_UI
                 }
                 
                 colNameComboBox.Enabled = true;
+                isBkUpReqCheckBox.Enabled = true;
                 dbBasedSaveBtn.Enabled = true;
 
             }
@@ -365,49 +492,27 @@ namespace Crypto_UI
             }
         }
 
-        private void dbBasedSaveBtn_Click(object sender, EventArgs e)
-        {
-            if(!string.IsNullOrEmpty(dbBasedSelFnComboBox.Text) && !string.IsNullOrEmpty(envComboBox.Text) && !string.IsNullOrEmpty(tblNameComboBox.Text) && !string.IsNullOrEmpty(colNameComboBox.Text))
-            {
-                string cryptoType = dbBasedTrippleDesRadBtn.Checked ? dbBasedTrippleDesRadBtn.Text : dbBasedAesRadBtn.Text;
-                string performFunction = dbBasedSelFnComboBox.Text;
-                string tblName = tblNameComboBox.Text;
-                string colName = colNameComboBox.Text;
-                string keyColName = colNameComboBox.SelectedValue.ToString();
-                string serverName = envComboBox.Text;
-                if(string.IsNullOrEmpty(keyColName))
-                {
-                    MessageBox.Show("No primary key found for this table, update failed.","Error",MessageBoxButtons.OK,MessageBoxIcon.Error);
-                    return;
-                }
 
-                if (performFunction == "Encrypt" || performFunction == "Decrypt")
-                {
-                    PerformDbEncryptionDecryption(serverName, tblName, colName, keyColName, performFunction, cryptoType);
-                }
-                else
-                {
-                    throw new Exception("IncorrectPerformMethod");
-                }
-                MessageBox.Show("Changes completed.");
-                
-            }
-            else
-            {
-                MessageBox.Show("Please required fields.");
-                return;
-            }
-        }
-
-        private void PerformDbEncryptionDecryption(string serverName, string tblName, string colName, string keyColName, string performFunction, string cryptoType)
+        private void PerformDbEncryptionDecryption(string serverName, string tblName, string colName, string keyColName, string performFunction, string cryptoType, bool isBackUpRequired)
         {
             using (CryptoController.CryptoFactory factory = new CryptoController.CryptoFactory())
             {
                 var adapter = factory.CreateCryptoAdapter(cryptoType);
                 List<TableUpdateModel> tblList = new List<TableUpdateModel>();
-                tblList = Repository.DAL.GetDataByTableName(serverName, tblName, colName, keyColName, performFunction, cryptoType);
-                MessageBox.Show("Data update completed.");
+                tblList = Repository.DAL.GetDataByTableName(backgroundWorker, serverName, tblName, colName, keyColName, performFunction, cryptoType, isBackUpRequired);
             }
+        }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ApplicationLogForm alForm = new ApplicationLogForm();
+            alForm.Show();
+        }
+
+        private void applicationLogsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AboutForm abForm = new AboutForm();
+            abForm.Show();
         }
     }
 }

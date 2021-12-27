@@ -29,6 +29,7 @@ namespace Crypto_UI
             _ds = Repository.CommonMethods.LoadDbConfig();
             dataGridView1.DataSource = _ds;
             dataGridView1.DataMember = _ds.Tables[0].TableName;
+            dataGridView1.Columns[4].Width = 160;
             ////            dataGridView1.Columns["AuthenticationType"].CellType.Name
             //DataGridViewComboBoxColumn authenCmbBoxCol = new DataGridViewComboBoxColumn();
             //authenCmbBoxCol.HeaderText = "AuthenticationType";

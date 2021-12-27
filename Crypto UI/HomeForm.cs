@@ -85,7 +85,7 @@ namespace Crypto_UI
                 item.Enabled = false;
             }
             backgroundWorker.RunWorkerAsync();
-            
+
         }
         void sqlConBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
@@ -94,7 +94,7 @@ namespace Crypto_UI
             if (Repository.CommonMethods.ConnectDb(dbConfigModel.Find(x => x.ServerName == envComboBoxText)))
             {
                 MessageBox.Show("Connection Successful");
-                tblList = Repository.CommonMethods.GetTables(envComboBoxText,sqlConBackGroundWorker);
+                tblList = Repository.CommonMethods.GetTables(envComboBoxText, sqlConBackGroundWorker);
             }
             else
             {
@@ -106,7 +106,7 @@ namespace Crypto_UI
         {
             if (!string.IsNullOrEmpty(dbBasedSelFnComboBoxText) && !string.IsNullOrEmpty(envComboBoxText) && !string.IsNullOrEmpty(tblNameComboBoxText) && !string.IsNullOrEmpty(colNameComboBoxText))
             {
-                
+
                 string cryptoType = dbBasedTrippleDesRadBtnChecked ? dbBasedTrippleDesRadBtnText : dbBasedAesRadBtnText;
                 string performFunction = dbBasedSelFnComboBoxText;
                 string tblName = tblNameComboBoxText;
@@ -137,7 +137,7 @@ namespace Crypto_UI
                 return;
             }
         }
-        
+
         void backgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             toolStripProgressBar1.Value = e.ProgressPercentage;
@@ -170,9 +170,20 @@ namespace Crypto_UI
                 sbFIleBtn.Enabled = true;
 
                 //default values
-                rowsSkipTxtBox.Text = "1";
-                delimiterTxtBox.Text = "|";
-                colIndexTxtBox.Text = "0";
+                if (openFileDialog1.FileName.Contains(".txt"))
+                {
+
+                    rowsSkipTxtBox.Text = "1";
+                    delimiterTxtBox.Text = "|";
+                    colIndexTxtBox.Text = "0";
+                }
+                else if (openFileDialog1.FileName.Contains(".csv"))
+                {
+                    rowsSkipTxtBox.Text = "1";
+                    delimiterTxtBox.Text = ",";
+                    colIndexTxtBox.Text = "0";
+                }
+
 
             }
         }
@@ -211,7 +222,7 @@ namespace Crypto_UI
 
                 if (performFunction == "Encrypt" || performFunction == "Decrypt")
                 {
-                    PerformEncryptionDecryption(filePath, colNumbers, skipRows, outputFile, performFunction,delimiter.ToCharArray()[0], cryptoType);
+                    PerformEncryptionDecryption(filePath, colNumbers, skipRows, outputFile, performFunction, delimiter.ToCharArray()[0], cryptoType);
                 }
                 else
                 {
@@ -237,7 +248,7 @@ namespace Crypto_UI
                 MessageBox.Show("Process Completed");
             }
         }
-        private static void PerformEncryptionDecryption(string filePath, List<int> columnIndex, int skipRows, string outputFile, string toPerform,char delimiter, string cryptoType)
+        private static void PerformEncryptionDecryption(string filePath, List<int> columnIndex, int skipRows, string outputFile, string toPerform, char delimiter, string cryptoType)
         {
             using (CryptoController.CryptoFactory factory = new CryptoController.CryptoFactory())
             {
@@ -255,7 +266,7 @@ namespace Crypto_UI
                                 output.WriteLine(line);
                             }
                         }
-                        
+
                         while ((line = reader.ReadLine()) != null)
                         {
                             try
@@ -266,13 +277,13 @@ namespace Crypto_UI
                                     string replacedWord = toPerform == "Decrypt" ? adapter.Decrypt(col[colIndex]) : adapter.Encrypt(col[colIndex]);
                                     line = line.Replace(col[colIndex].Trim(), replacedWord);
                                 }
-                                
+
                                 output.WriteLine(line);
                             }
                             catch (Exception ex)
                             {
                                 OSILogManager.Logger.LogError($"PerformEncryptionDecryption method failed: {ex.Message}");
-                                
+
                             }
                         }
                         reader.Close();
@@ -281,7 +292,7 @@ namespace Crypto_UI
                     output.Close();
                 }
             }
-                
+
         }
 
         private void sbmitOnTxtBtn_Click(object sender, EventArgs e)
@@ -295,7 +306,7 @@ namespace Crypto_UI
                     var adapter = factory.CreateCryptoAdapter(cryptoType);
                     outputTxtBox.Text = toPerform == "Decrypt" ? adapter.Decrypt(enterTxtBox.Text) : adapter.Encrypt(enterTxtBox.Text);
                 }
-                    
+
             }
             catch (Exception ex)
             {
@@ -312,7 +323,7 @@ namespace Crypto_UI
                 }
 
             }
-                
+
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -366,13 +377,13 @@ namespace Crypto_UI
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 signAsTxtBox.Text = openFileDialog1.FileName;
-                outputFIleTxtBox.Enabled = true;
+                encFileBasedSbmBtn.Enabled = true;
             }
         }
 
         private void signAsChkBox_CheckedChanged(object sender, EventArgs e)
         {
-            if(signAsChkBox.Checked)
+            if (signAsChkBox.Checked)
             {
                 signAsTxtBox.Enabled = true;
                 signAsBrowseBtn.Enabled = true;
@@ -386,7 +397,7 @@ namespace Crypto_UI
 
         private void button1_Click(object sender, EventArgs e)
         {
-            
+
             OpenFileDialog openFileDialog1 = new OpenFileDialog
             {
                 InitialDirectory = @"C:\",
@@ -397,7 +408,7 @@ namespace Crypto_UI
 
                 DefaultExt = "*.*",
                 Filter = "All files (*.*)|*.*|txt files (*.txt)|*.txt|csv files(*.csv)|*.csv",
-                FilterIndex = 2,
+                FilterIndex = 0,
                 RestoreDirectory = true,
 
                 ReadOnlyChecked = true,
@@ -408,7 +419,18 @@ namespace Crypto_UI
             {
                 inputFileTxtBox.Text = openFileDialog1.FileName;
                 signGroupBox.Enabled = true;
-                outputFIleTxtBox.Text = openFileDialog1.FileName + ".gpg";
+                var file = new FileInfo(openFileDialog1.FileName);
+                if (encFileBasedSelFnCmbBox.Text == "Encrypt")
+                {
+                    outputFIleTxtBox.Text = Path.Combine(file.Directory.ToString(), file.Name + ".pgp");
+                }
+                else
+                {
+                    outputFIleTxtBox.Text = Path.Combine(file.Directory.ToString(), file.Name.Replace(file.Extension, ""));
+                }
+                outputFIleTxtBox.Enabled = true;
+                outputFileBrowseBtn.Enabled = true;
+                outputGroupBox.Enabled = true;
 
             }
         }
@@ -438,7 +460,7 @@ namespace Crypto_UI
         {
             envComboBoxText = envComboBox.Text;
             toolStripProgressBar1.Visible = true;
-            
+
             foreach (Control item in this.Controls)
             {
                 item.Enabled = false;
@@ -466,11 +488,11 @@ namespace Crypto_UI
             if (Repository.CommonMethods.ConnectDb(dbConfigModel.Find(x => x.ServerName == envComboBox.Text)))
             {
                 //populate table names
-                Dictionary<string,List<TableContainer>> colDict = new Dictionary<string, List<TableContainer>>();
+                Dictionary<string, List<TableContainer>> colDict = new Dictionary<string, List<TableContainer>>();
                 colDict = Repository.CommonMethods.GetSourceTables(envComboBox.Text, tblName);
                 foreach (var item in colDict)
                 {
-                    
+
                     foreach (var colList in item.Value)
                     {
                         colNameComboBox.DataSource = item.Value;
@@ -480,7 +502,7 @@ namespace Crypto_UI
                     }
 
                 }
-                
+
                 colNameComboBox.Enabled = true;
                 isBkUpReqCheckBox.Enabled = true;
                 dbBasedSaveBtn.Enabled = true;
@@ -514,5 +536,63 @@ namespace Crypto_UI
             AboutForm abForm = new AboutForm();
             abForm.Show();
         }
+
+        private void encFileBasedSbmBtn_Click(object sender, EventArgs e)
+        {
+            string inputFile = inputFileTxtBox.Text;
+            string ascFile = signAsTxtBox.Text;
+            string outputFile = outputFIleTxtBox.Text;
+            string encFileBasedSelFnCmbBoxText = encFileBasedSelFnCmbBox.Text;
+
+            try
+            {
+                if (encFileBasedSelFnCmbBoxText == "Encrypt")
+                {
+                    OSILogManager.Logger.LogInfo($"File encryption started.");
+                    byte[] buffer = null;
+                    using (FileStream fs = new FileStream(inputFile, FileMode.Open, FileAccess.Read))
+                    {
+                        buffer = new byte[fs.Length];
+                        fs.ReadAsync(buffer, 0, (int)fs.Length);
+                    }
+
+                    PgpWrapperLibrary.PgpWrapper.EncryptFile(inputFile, outputFile, ascFile, true);
+                    MessageBox.Show($"File successfully {encFileBasedSelFnCmbBoxText}ed.", "File Status", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    OSILogManager.Logger.LogInfo($"File encryption process completed.");
+                }
+                else if (encFileBasedSelFnCmbBoxText == "Decrypt")
+                {
+                    OSILogManager.Logger.LogInfo($"File decryption started.");
+                    PgpWrapperLibrary.PgpWrapper.DecryptFile(inputFile, ascFile, string.Empty.ToCharArray(), outputFile);
+                    OSILogManager.Logger.LogInfo($"File decryption completed.");
+                    MessageBox.Show($"File successfully {encFileBasedSelFnCmbBoxText}ed.", "File Status", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                OSILogManager.Logger.LogError($"File encryption method failed due to: {ex.Message}");
+                OSILogManager.Logger.LogError($"File encryption method failed due to: {ex.InnerException?.Message}");
+                MessageBox.Show($"File failed to {encFileBasedSelFnCmbBoxText}. Review application logs.", "File Status", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        public bool ByteToFile(string fileName, byte[] byteArray)
+        {
+            try
+            {
+                using (var fs = new FileStream(fileName, FileMode.Create, FileAccess.Write))
+                {
+                    fs.Write(byteArray, 0, byteArray.Length);
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                OSILogManager.Logger.LogError($"ByteToFile to failed due to: {ex.Message}");
+                OSILogManager.Logger.LogError($"ByteToFile to failed due to: {ex.InnerException?.Message}");
+                return false;
+            }
+        }
+
     }
 }

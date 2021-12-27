@@ -12,15 +12,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\OneDrive - Duck Creek Technologies LLC\repos\DecryptPgp\PgpWrapperLibrary\PgpWrapperLibrary.csproj" />
     <ProjectReference Include="..\EncryptDecryptTrippleDES\EncryptDecryptTrippleDES.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Reference Include="log4net">
       <HintPath>..\Encrypt-Decrypt-Utility\lib\log4net.dll</HintPath>
+      <Private>true</Private>
     </Reference>
     <Reference Include="OSILogManager">
       <HintPath>..\Encrypt-Decrypt-Utility\lib\OSILogManager.dll</HintPath>
+      <Private>true</Private>
     </Reference>
   </ItemGroup>
 

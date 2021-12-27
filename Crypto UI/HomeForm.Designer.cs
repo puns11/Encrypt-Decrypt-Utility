@@ -56,6 +56,9 @@ namespace Crypto_UI
             this.selectFnOnTxtCmBox = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.fileTabpage = new System.Windows.Forms.TabPage();
+            this.encFileBasedSbmBtn = new System.Windows.Forms.Button();
+            this.encFileBasedSelFnCmbBox = new System.Windows.Forms.ComboBox();
+            this.encFileBasedSelFncLbl = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.inputFileBrowseBtn = new System.Windows.Forms.Button();
             this.inputFileTxtBox = new System.Windows.Forms.TextBox();
@@ -391,6 +394,9 @@ namespace Crypto_UI
             // 
             // fileTabpage
             // 
+            this.fileTabpage.Controls.Add(this.encFileBasedSbmBtn);
+            this.fileTabpage.Controls.Add(this.encFileBasedSelFnCmbBox);
+            this.fileTabpage.Controls.Add(this.encFileBasedSelFncLbl);
             this.fileTabpage.Controls.Add(this.groupBox3);
             this.fileTabpage.Controls.Add(this.signGroupBox);
             this.fileTabpage.Controls.Add(this.outputGroupBox);
@@ -402,11 +408,43 @@ namespace Crypto_UI
             this.fileTabpage.Text = "Encrypt File";
             this.fileTabpage.UseVisualStyleBackColor = true;
             // 
+            // encFileBasedSbmBtn
+            // 
+            this.encFileBasedSbmBtn.Enabled = false;
+            this.encFileBasedSbmBtn.Location = new System.Drawing.Point(8, 232);
+            this.encFileBasedSbmBtn.Name = "encFileBasedSbmBtn";
+            this.encFileBasedSbmBtn.Size = new System.Drawing.Size(75, 23);
+            this.encFileBasedSbmBtn.TabIndex = 9;
+            this.encFileBasedSbmBtn.Text = "Submit";
+            this.encFileBasedSbmBtn.UseVisualStyleBackColor = true;
+            this.encFileBasedSbmBtn.Click += new System.EventHandler(this.encFileBasedSbmBtn_Click);
+            // 
+            // encFileBasedSelFnCmbBox
+            // 
+            this.encFileBasedSelFnCmbBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.encFileBasedSelFnCmbBox.FormattingEnabled = true;
+            this.encFileBasedSelFnCmbBox.Items.AddRange(new object[] {
+            "Decrypt",
+            "Encrypt"});
+            this.encFileBasedSelFnCmbBox.Location = new System.Drawing.Point(108, 13);
+            this.encFileBasedSelFnCmbBox.Name = "encFileBasedSelFnCmbBox";
+            this.encFileBasedSelFnCmbBox.Size = new System.Drawing.Size(121, 23);
+            this.encFileBasedSelFnCmbBox.TabIndex = 8;
+            // 
+            // encFileBasedSelFncLbl
+            // 
+            this.encFileBasedSelFncLbl.AutoSize = true;
+            this.encFileBasedSelFncLbl.Location = new System.Drawing.Point(14, 19);
+            this.encFileBasedSelFncLbl.Name = "encFileBasedSelFncLbl";
+            this.encFileBasedSelFncLbl.Size = new System.Drawing.Size(88, 15);
+            this.encFileBasedSelFncLbl.TabIndex = 7;
+            this.encFileBasedSelFncLbl.Text = "Select Function";
+            // 
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.inputFileBrowseBtn);
             this.groupBox3.Controls.Add(this.inputFileTxtBox);
-            this.groupBox3.Location = new System.Drawing.Point(6, 3);
+            this.groupBox3.Location = new System.Drawing.Point(8, 37);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(426, 54);
             this.groupBox3.TabIndex = 6;
@@ -436,7 +474,7 @@ namespace Crypto_UI
             this.signGroupBox.Controls.Add(this.signAsTxtBox);
             this.signGroupBox.Controls.Add(this.signAsBrowseBtn);
             this.signGroupBox.Enabled = false;
-            this.signGroupBox.Location = new System.Drawing.Point(6, 63);
+            this.signGroupBox.Location = new System.Drawing.Point(8, 97);
             this.signGroupBox.Name = "signGroupBox";
             this.signGroupBox.Size = new System.Drawing.Size(429, 61);
             this.signGroupBox.TabIndex = 5;
@@ -478,7 +516,7 @@ namespace Crypto_UI
             this.outputGroupBox.Controls.Add(this.outputFileBrowseBtn);
             this.outputGroupBox.Controls.Add(this.outputFIleTxtBox);
             this.outputGroupBox.Enabled = false;
-            this.outputGroupBox.Location = new System.Drawing.Point(6, 130);
+            this.outputGroupBox.Location = new System.Drawing.Point(8, 164);
             this.outputGroupBox.Name = "outputGroupBox";
             this.outputGroupBox.Size = new System.Drawing.Size(429, 62);
             this.outputGroupBox.TabIndex = 4;
@@ -815,6 +853,7 @@ namespace Crypto_UI
             this.txtTabPage.ResumeLayout(false);
             this.txtTabPage.PerformLayout();
             this.fileTabpage.ResumeLayout(false);
+            this.fileTabpage.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.signGroupBox.ResumeLayout(false);
@@ -906,6 +945,9 @@ namespace Crypto_UI
         private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem applicationLogsToolStripMenuItem;
         private System.ComponentModel.BackgroundWorker sqlConBackGroundWorker;
+        private System.Windows.Forms.Button encFileBasedSbmBtn;
+        private System.Windows.Forms.ComboBox encFileBasedSelFnCmbBox;
+        private System.Windows.Forms.Label encFileBasedSelFncLbl;
     }
 }
 

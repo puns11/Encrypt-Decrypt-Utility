@@ -1,4 +1,5 @@
 ﻿using Crypto_UI.Models;
+using Crypto_UI.Views;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -594,5 +595,21 @@ namespace Crypto_UI
             }
         }
 
+        private void viewDbDataBtn_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ViewDataForm frm = new ViewDataForm();
+                frm.ServerName = envComboBox.Text;
+                frm.TableName = tblNameComboBox.Text;
+                frm.ColumnName = colNameComboBox.SelectedValue.ToString() + "," + colNameComboBox.Text;
+                frm.Show();
+            }
+            catch (Exception ex)
+            {
+                OSILogManager.Logger.LogError($"Failed to load the data preview due to {ex.Message}");
+                MessageBox.Show("Failed to load the data preview.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 }

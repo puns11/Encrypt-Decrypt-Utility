@@ -34,9 +34,9 @@ namespace Crypto_UI
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.developerLabel = new System.Windows.Forms.Label();
+            this.versionLabel = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.aboutOkBtn = new System.Windows.Forms.Button();
-            this.versionLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -85,6 +85,15 @@ namespace Crypto_UI
             this.developerLabel.TabIndex = 0;
             this.developerLabel.Text = "Puneet Sharma";
             // 
+            // versionLabel
+            // 
+            this.versionLabel.AutoSize = true;
+            this.versionLabel.Location = new System.Drawing.Point(3, 112);
+            this.versionLabel.Name = "versionLabel";
+            this.versionLabel.Size = new System.Drawing.Size(48, 15);
+            this.versionLabel.TabIndex = 1;
+            this.versionLabel.Text = "Version:";
+            // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.White;
@@ -103,15 +112,6 @@ namespace Crypto_UI
             this.aboutOkBtn.Text = "Ok";
             this.aboutOkBtn.UseVisualStyleBackColor = true;
             this.aboutOkBtn.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // versionLabel
-            // 
-            this.versionLabel.AutoSize = true;
-            this.versionLabel.Location = new System.Drawing.Point(3, 112);
-            this.versionLabel.Name = "versionLabel";
-            this.versionLabel.Size = new System.Drawing.Size(48, 15);
-            this.versionLabel.TabIndex = 1;
-            this.versionLabel.Text = "Version:";
             // 
             // AboutForm
             // 

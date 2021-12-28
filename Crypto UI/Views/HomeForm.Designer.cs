@@ -104,6 +104,7 @@ namespace Crypto_UI
             this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
             this.backgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.sqlConBackGroundWorker = new System.ComponentModel.BackgroundWorker();
+            this.viewDbDataBtn = new System.Windows.Forms.Button();
             this.tabControl.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.txtTabPage.SuspendLayout();
@@ -541,6 +542,7 @@ namespace Crypto_UI
             // 
             // dbTabpage
             // 
+            this.dbTabpage.Controls.Add(this.viewDbDataBtn);
             this.dbTabpage.Controls.Add(this.colNameComboBox);
             this.dbTabpage.Controls.Add(this.tblNameComboBox);
             this.dbTabpage.Controls.Add(this.connectBtn);
@@ -587,11 +589,11 @@ namespace Crypto_UI
             // 
             // connectBtn
             // 
-            this.connectBtn.BackgroundImage = global::Crypto_UI.Properties.Resources.connect_icon;
+            this.connectBtn.BackgroundImage = global::Crypto_UI.Properties.Resources.icons8_connected_30;
             this.connectBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.connectBtn.Location = new System.Drawing.Point(465, 37);
             this.connectBtn.Name = "connectBtn";
-            this.connectBtn.Size = new System.Drawing.Size(25, 23);
+            this.connectBtn.Size = new System.Drawing.Size(24, 23);
             this.connectBtn.TabIndex = 38;
             this.connectBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.TextAboveImage;
             this.connectBtn.UseVisualStyleBackColor = false;
@@ -829,6 +831,17 @@ namespace Crypto_UI
             this.toolStripProgressBar1.Size = new System.Drawing.Size(100, 16);
             this.toolStripProgressBar1.Visible = false;
             // 
+            // viewDbDataBtn
+            // 
+            this.viewDbDataBtn.BackgroundImage = global::Crypto_UI.Properties.Resources.icons8_table_24;
+            this.viewDbDataBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.viewDbDataBtn.Location = new System.Drawing.Point(464, 95);
+            this.viewDbDataBtn.Name = "viewDbDataBtn";
+            this.viewDbDataBtn.Size = new System.Drawing.Size(25, 23);
+            this.viewDbDataBtn.TabIndex = 41;
+            this.viewDbDataBtn.UseVisualStyleBackColor = true;
+            this.viewDbDataBtn.Click += new System.EventHandler(this.viewDbDataBtn_Click);
+            // 
             // HomeForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -948,6 +961,7 @@ namespace Crypto_UI
         private System.Windows.Forms.Button encFileBasedSbmBtn;
         private System.Windows.Forms.ComboBox encFileBasedSelFnCmbBox;
         private System.Windows.Forms.Label encFileBasedSelFncLbl;
+        private System.Windows.Forms.Button viewDbDataBtn;
     }
 }
 

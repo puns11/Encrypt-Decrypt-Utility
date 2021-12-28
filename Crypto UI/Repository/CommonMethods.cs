@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -18,7 +19,7 @@ namespace Crypto_UI.Repository
             DataSet ds = new DataSet();
             try
             {
-                ds.ReadXml(@".\DataSource\DbConfiguration.xml");
+                ds.ReadXml(AppDomain.CurrentDomain.BaseDirectory + @"\DataSource\DbConfiguration.xml");
             }
             catch (Exception ex)
             {
@@ -33,7 +34,7 @@ namespace Crypto_UI.Repository
         {
             try
             {
-                ds.WriteXml(@".\DataSource\DbConfiguration.xml");
+                ds.WriteXml(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"\DataSource\DbConfiguration.xml"));
             }
             catch (Exception ex)
             {
@@ -43,6 +44,38 @@ namespace Crypto_UI.Repository
             }
             return ds;
         }
+
+        internal static DataSet GetDataByTableName(string columnName, string tableName, string serverName)
+        {
+            var viewDataSet = new DataSet();
+            try
+            {
+                var dbDs = Repository.CommonMethods.LoadDbConfig();
+                var dbConfigModel = Repository.CommonMethods.ConvertDataTable<Models.DbConfigModel>(dbDs.Tables[0]);
+                var sourceConfig = dbConfigModel.Find(x => x.ServerName == serverName);
+                var connectionString = GetConnectionString(sourceConfig);
+                if (sourceConfig != null)
+                {
+                    using (SqlConnection connection = new SqlConnection(connectionString))
+                    {
+                        connection.Open();
+                        var sqlCmd = connection.CreateCommand();
+                        sqlCmd.CommandText = $"select top 50 {columnName} from {tableName}";
+                        sqlCmd.CommandType = CommandType.Text;
+                        var adpt = new SqlDataAdapter(sqlCmd);
+                        adpt.Fill(viewDataSet);
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                OSILogManager.Logger.LogError($"GetDataByTableName method failed due to : {ex.Message}");
+                OSILogManager.Logger.LogError($"GetDataByTableName method failed due to : {ex.InnerException?.Message}");
+            }
+            return viewDataSet;
+        }
+
         /// <summary>
         /// Convert the List<T> into DataTable.
         /// </summary>

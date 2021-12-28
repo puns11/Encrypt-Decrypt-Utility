@@ -34,7 +34,7 @@ namespace Crypto_UI.Repository
         {
             try
             {
-                ds.WriteXml(AppDomain.CurrentDomain.BaseDirectory + @"\DataSource\DbConfiguration.xml"));
+                ds.WriteXml(AppDomain.CurrentDomain.BaseDirectory + @"\DataSource\DbConfiguration.xml");
             }
             catch (Exception ex)
             {

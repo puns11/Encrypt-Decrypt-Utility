@@ -63,9 +63,9 @@ namespace Crypto_UI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap connect_icon {
+        internal static System.Drawing.Bitmap dctlogo {
             get {
-                object obj = ResourceManager.GetObject("connect-icon", resourceCulture);
+                object obj = ResourceManager.GetObject("dctlogo", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -73,9 +73,9 @@ namespace Crypto_UI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap connect_icon1 {
+        internal static System.Drawing.Bitmap dctlogo1 {
             get {
-                object obj = ResourceManager.GetObject("connect-icon1", resourceCulture);
+                object obj = ResourceManager.GetObject("dctlogo1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -93,9 +93,9 @@ namespace Crypto_UI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap icons8_connection_64 {
+        internal static System.Drawing.Bitmap icons8_table_24 {
             get {
-                object obj = ResourceManager.GetObject("icons8-connection-64", resourceCulture);
+                object obj = ResourceManager.GetObject("icons8-table-24", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -103,9 +103,19 @@ namespace Crypto_UI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap icons8_table_24 {
+        internal static System.Drawing.Bitmap icons8_validation_50 {
             get {
-                object obj = ResourceManager.GetObject("icons8-table-24", resourceCulture);
+                object obj = ResourceManager.GetObject("icons8-validation-50", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icons8_view_64 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-view-64", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

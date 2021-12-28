@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EncryptDecryptTrippleDES
 {
-    public interface ICryptoAdapter
+    public interface ICryptoAdapter : IDisposable
     {
         string Decrypt(string message);
         string Encrypt(string message);

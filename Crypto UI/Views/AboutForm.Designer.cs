@@ -37,15 +37,17 @@ namespace Crypto_UI
             this.versionLabel = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.aboutOkBtn = new System.Windows.Forms.Button();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
             // 
             // aboutUsLabel
             // 
             this.aboutUsLabel.AutoSize = true;
-            this.aboutUsLabel.Location = new System.Drawing.Point(12, 68);
+            this.aboutUsLabel.Location = new System.Drawing.Point(12, 89);
             this.aboutUsLabel.Name = "aboutUsLabel";
             this.aboutUsLabel.Size = new System.Drawing.Size(68, 15);
             this.aboutUsLabel.TabIndex = 0;
@@ -54,9 +56,9 @@ namespace Crypto_UI
             // pictureBox1
             // 
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(153, 12);
+            this.pictureBox1.Location = new System.Drawing.Point(139, 12);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(128, 47);
+            this.pictureBox1.Size = new System.Drawing.Size(142, 62);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
@@ -68,12 +70,12 @@ namespace Crypto_UI
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.Controls.Add(this.developerLabel, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.versionLabel, 0, 1);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 86);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 107);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 27F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(216, 139);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(216, 118);
             this.tableLayoutPanel1.TabIndex = 2;
             // 
             // developerLabel
@@ -88,7 +90,7 @@ namespace Crypto_UI
             // versionLabel
             // 
             this.versionLabel.AutoSize = true;
-            this.versionLabel.Location = new System.Drawing.Point(3, 112);
+            this.versionLabel.Location = new System.Drawing.Point(3, 91);
             this.versionLabel.Name = "versionLabel";
             this.versionLabel.Size = new System.Drawing.Size(48, 15);
             this.versionLabel.TabIndex = 1;
@@ -97,10 +99,11 @@ namespace Crypto_UI
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.White;
+            this.panel1.Controls.Add(this.pictureBox2);
             this.panel1.Controls.Add(this.pictureBox1);
             this.panel1.Location = new System.Drawing.Point(-1, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(293, 65);
+            this.panel1.Size = new System.Drawing.Size(293, 79);
             this.panel1.TabIndex = 3;
             // 
             // aboutOkBtn
@@ -112,6 +115,15 @@ namespace Crypto_UI
             this.aboutOkBtn.Text = "Ok";
             this.aboutOkBtn.UseVisualStyleBackColor = true;
             this.aboutOkBtn.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Image = global::Crypto_UI.Properties.Resources.dctlogo;
+            this.pictureBox2.Location = new System.Drawing.Point(13, 12);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(92, 62);
+            this.pictureBox2.TabIndex = 2;
+            this.pictureBox2.TabStop = false;
             // 
             // AboutForm
             // 
@@ -135,6 +147,7 @@ namespace Crypto_UI
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -149,5 +162,6 @@ namespace Crypto_UI
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button aboutOkBtn;
         private System.Windows.Forms.Label versionLabel;
+        private System.Windows.Forms.PictureBox pictureBox2;
     }
 }

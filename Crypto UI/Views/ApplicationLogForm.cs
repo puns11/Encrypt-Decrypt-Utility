@@ -17,7 +17,7 @@ namespace Crypto_UI
         public ApplicationLogForm()
         {
             InitializeComponent();
-            _logFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Encrypt-Decrypt.log");
+            _logFilePath = AppDomain.CurrentDomain.BaseDirectory + @"\Encrypt-Decrypt.log";
         }
 
         private void button1_Click(object sender, EventArgs e)

@@ -57,6 +57,8 @@ namespace Crypto_UI.Views
             this.ClientSize = new System.Drawing.Size(428, 341);
             this.Controls.Add(this.viewDataGridView);
             this.Name = "ViewDataForm";
+            this.ShowIcon = false;
+            this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Preview Data";

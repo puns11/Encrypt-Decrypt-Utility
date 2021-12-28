@@ -11,6 +11,7 @@ namespace EncryptDecryptTrippleDES
 {
     public sealed class EncryptDecryptTrippleDES : ICryptoAdapter
     {
+        private readonly EncryptDecryptTrippleDES _context;
         public string Decrypt(string message)
         {
             byte[] keyArr;
@@ -48,6 +49,10 @@ namespace EncryptDecryptTrippleDES
             byte[] result = cTransform.TransformFinalBlock(cipherTextArr, 0, cipherTextArr.Length);
             svcProvider.Clear();
             return Convert.ToBase64String(result, 0, result.Length);
+        }
+        public void Dispose()
+        {
+            if (_context != null) _context.Dispose();
         }
     }
 }

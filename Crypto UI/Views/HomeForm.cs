@@ -26,6 +26,8 @@ namespace Crypto_UI
         public string keyColNameText { get; set; }
         public bool isBackRequired { get; set; }
         public List<string> tblList { get; set; }
+
+        public bool isPIIVerified { get; set; }
         public HomeForm()
         {
             InitializeComponent();
@@ -41,6 +43,35 @@ namespace Crypto_UI
             sqlConBackGroundWorker.ProgressChanged += new ProgressChangedEventHandler(backgroundWorker_ProgressChanged);
             sqlConBackGroundWorker.RunWorkerCompleted += sqlConBackgroundWorker_RunWorkerCompleted;
 
+
+            verifyPIIBackgroundWorker.WorkerReportsProgress = true;
+            verifyPIIBackgroundWorker.DoWork += new DoWorkEventHandler(verifyPIIBackgroundWorker_DoWork);
+            verifyPIIBackgroundWorker.ProgressChanged += new ProgressChangedEventHandler(backgroundWorker_ProgressChanged);
+            verifyPIIBackgroundWorker.RunWorkerCompleted += verifyPIIBackgroundWorker_RunWorkerCompleted;
+        }
+
+        private void verifyPIIBackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            foreach (Control item in this.Controls)
+            {
+                item.Enabled = true;
+            }
+            toolStripProgressBar1.Visible = false;
+        }
+
+        private void verifyPIIBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            string cryptoType = dbBasedTrippleDesRadBtnChecked ? dbBasedTrippleDesRadBtnText : dbBasedAesRadBtnText;
+            isPIIVerified = Repository.DAL.VerifyPII(envComboBoxText, tblNameComboBoxText, colNameComboBoxText, keyColNameText, cryptoType, verifyPIIBackgroundWorker);
+            if(isPIIVerified)
+            {
+                MessageBox.Show($"All data in given column is encrypted with {cryptoType} algorithm.","Success",MessageBoxButtons.OK,MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show($"Not all of data in given column is encrypted. {Environment.NewLine} Review application logs to find details.", "Failure", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+
         }
 
         private void BackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -50,6 +81,7 @@ namespace Crypto_UI
                 item.Enabled = true;
             }
             toolStripProgressBar1.Visible = false;
+
         }
         private void sqlConBackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
@@ -77,8 +109,12 @@ namespace Crypto_UI
             tblNameComboBoxText = tblNameComboBox.Text;
             envComboBoxText = envComboBox.Text;
             dbBasedSelFnComboBoxText = dbBasedSelFnComboBox.Text;
-            dbBasedTrippleDesRadBtnText = dbBasedTrippleDesRadBtn.Text;
             keyColNameText = colNameComboBox.SelectedValue.ToString();
+            if(string.IsNullOrEmpty(keyColNameText))
+            {
+                MessageBox.Show($"No primary key found on the table: {tblNameComboBoxText}." + Environment.NewLine + $"Primary key is must for updating the table.","Error",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                return;
+            }
             toolStripProgressBar1.Visible = true;
             isBackRequired = isBkUpReqCheckBox.Checked;
             foreach (Control item in this.Controls)
@@ -475,8 +511,14 @@ namespace Crypto_UI
             {
                 string tblName = tblNameComboBox.Text;
                 RefreshColumnCombobox(tblName);
+                viewDbDataBtn.Enabled = true;
+                verifyPIIBtn.Enabled = true;
 
-
+            }
+            else
+            {
+                viewDbDataBtn.Enabled = false;
+                verifyPIIBtn.Enabled = false;
             }
         }
 
@@ -521,8 +563,8 @@ namespace Crypto_UI
             using (CryptoController.CryptoFactory factory = new CryptoController.CryptoFactory())
             {
                 var adapter = factory.CreateCryptoAdapter(cryptoType);
-                List<TableUpdateModel> tblList = new List<TableUpdateModel>();
-                tblList = Repository.DAL.GetDataByTableName(backgroundWorker, serverName, tblName, colName, keyColName, performFunction, cryptoType, isBackUpRequired);
+                var rowsAffected = Repository.DAL.GetDataByTableName(backgroundWorker, serverName, tblName, colName, keyColName, performFunction, cryptoType, isBackUpRequired);
+                MessageBox.Show($"Total rows affected: {rowsAffected.ToString()}." + Environment.NewLine + $"Review application logs for details.","Status",MessageBoxButtons.OK,MessageBoxIcon.Information);
             }
         }
 
@@ -599,6 +641,11 @@ namespace Crypto_UI
         {
             try
             {
+                if (string.IsNullOrEmpty(colNameComboBox.SelectedValue.ToString()))
+                {
+                    MessageBox.Show($"No primary key found on the table: {tblNameComboBox.Text}." + Environment.NewLine + $"Primary key is must for updating the table.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
                 ViewDataForm frm = new ViewDataForm();
                 frm.ServerName = envComboBox.Text;
                 frm.TableName = tblNameComboBox.Text;
@@ -610,6 +657,24 @@ namespace Crypto_UI
                 OSILogManager.Logger.LogError($"Failed to load the data preview due to {ex.Message}");
                 MessageBox.Show("Failed to load the data preview.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void verifyPIIBtn_Click(object sender, EventArgs e)
+        {
+            envComboBoxText = envComboBox.Text;
+            tblNameComboBoxText = tblNameComboBox.Text;
+            colNameComboBoxText = colNameComboBox.Text;
+            dbBasedTrippleDesRadBtnText = dbBasedTrippleDesRadBtn.Text;
+            dbBasedAesRadBtnText = dbBasedAesRadBtn.Text;
+            keyColNameText = colNameComboBox.SelectedValue.ToString();
+            toolStripProgressBar1.Visible = true;
+            foreach (Control item in this.Controls)
+            {
+                item.Enabled = false;
+            }
+            verifyPIIBackgroundWorker.RunWorkerAsync();
+
+
         }
     }
 }

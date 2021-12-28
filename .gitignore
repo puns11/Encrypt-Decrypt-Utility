@@ -361,3 +361,7 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/Crypto UI/Resources/P1_favicon.ico
+/Crypto UI/Resources/favicon.ico
+/Crypto UI/Resources/dctlogo1.png
+/Crypto UI/Resources/dctlogo.png

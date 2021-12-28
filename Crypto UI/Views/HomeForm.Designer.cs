@@ -29,6 +29,7 @@ namespace Crypto_UI
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(HomeForm));
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.aesRadioBtn = new System.Windows.Forms.RadioButton();
@@ -70,6 +71,8 @@ namespace Crypto_UI
             this.outputFileBrowseBtn = new System.Windows.Forms.Button();
             this.outputFIleTxtBox = new System.Windows.Forms.TextBox();
             this.dbTabpage = new System.Windows.Forms.TabPage();
+            this.verifyPIIBtn = new System.Windows.Forms.Button();
+            this.viewDbDataBtn = new System.Windows.Forms.Button();
             this.colNameComboBox = new System.Windows.Forms.ComboBox();
             this.tblNameComboBox = new System.Windows.Forms.ComboBox();
             this.connectBtn = new System.Windows.Forms.Button();
@@ -104,7 +107,7 @@ namespace Crypto_UI
             this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
             this.backgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.sqlConBackGroundWorker = new System.ComponentModel.BackgroundWorker();
-            this.viewDbDataBtn = new System.Windows.Forms.Button();
+            this.verifyPIIBackgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.tabControl.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.txtTabPage.SuspendLayout();
@@ -542,6 +545,7 @@ namespace Crypto_UI
             // 
             // dbTabpage
             // 
+            this.dbTabpage.Controls.Add(this.verifyPIIBtn);
             this.dbTabpage.Controls.Add(this.viewDbDataBtn);
             this.dbTabpage.Controls.Add(this.colNameComboBox);
             this.dbTabpage.Controls.Add(this.tblNameComboBox);
@@ -564,6 +568,30 @@ namespace Crypto_UI
             this.dbTabpage.Text = "Database Based";
             this.dbTabpage.UseVisualStyleBackColor = true;
             // 
+            // verifyPIIBtn
+            // 
+            this.verifyPIIBtn.BackgroundImage = global::Crypto_UI.Properties.Resources.icons8_validation_50;
+            this.verifyPIIBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.verifyPIIBtn.Enabled = false;
+            this.verifyPIIBtn.Location = new System.Drawing.Point(464, 95);
+            this.verifyPIIBtn.Name = "verifyPIIBtn";
+            this.verifyPIIBtn.Size = new System.Drawing.Size(25, 23);
+            this.verifyPIIBtn.TabIndex = 42;
+            this.verifyPIIBtn.UseVisualStyleBackColor = true;
+            this.verifyPIIBtn.Click += new System.EventHandler(this.verifyPIIBtn_Click);
+            // 
+            // viewDbDataBtn
+            // 
+            this.viewDbDataBtn.BackgroundImage = global::Crypto_UI.Properties.Resources.icons8_table_24;
+            this.viewDbDataBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.viewDbDataBtn.Enabled = false;
+            this.viewDbDataBtn.Location = new System.Drawing.Point(424, 95);
+            this.viewDbDataBtn.Name = "viewDbDataBtn";
+            this.viewDbDataBtn.Size = new System.Drawing.Size(25, 23);
+            this.viewDbDataBtn.TabIndex = 41;
+            this.viewDbDataBtn.UseVisualStyleBackColor = true;
+            this.viewDbDataBtn.Click += new System.EventHandler(this.viewDbDataBtn_Click);
+            // 
             // colNameComboBox
             // 
             this.colNameComboBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
@@ -572,7 +600,7 @@ namespace Crypto_UI
             this.colNameComboBox.FormattingEnabled = true;
             this.colNameComboBox.Location = new System.Drawing.Point(100, 95);
             this.colNameComboBox.Name = "colNameComboBox";
-            this.colNameComboBox.Size = new System.Drawing.Size(358, 23);
+            this.colNameComboBox.Size = new System.Drawing.Size(308, 23);
             this.colNameComboBox.TabIndex = 40;
             // 
             // tblNameComboBox
@@ -831,17 +859,6 @@ namespace Crypto_UI
             this.toolStripProgressBar1.Size = new System.Drawing.Size(100, 16);
             this.toolStripProgressBar1.Visible = false;
             // 
-            // viewDbDataBtn
-            // 
-            this.viewDbDataBtn.BackgroundImage = global::Crypto_UI.Properties.Resources.icons8_table_24;
-            this.viewDbDataBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.viewDbDataBtn.Location = new System.Drawing.Point(464, 95);
-            this.viewDbDataBtn.Name = "viewDbDataBtn";
-            this.viewDbDataBtn.Size = new System.Drawing.Size(25, 23);
-            this.viewDbDataBtn.TabIndex = 41;
-            this.viewDbDataBtn.UseVisualStyleBackColor = true;
-            this.viewDbDataBtn.Click += new System.EventHandler(this.viewDbDataBtn_Click);
-            // 
             // HomeForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -851,6 +868,7 @@ namespace Crypto_UI
             this.Controls.Add(this.tabControl);
             this.Controls.Add(this.menuStrip1);
             this.HelpButton = true;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.IsMdiContainer = true;
             this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
@@ -962,6 +980,8 @@ namespace Crypto_UI
         private System.Windows.Forms.ComboBox encFileBasedSelFnCmbBox;
         private System.Windows.Forms.Label encFileBasedSelFncLbl;
         private System.Windows.Forms.Button viewDbDataBtn;
+        private System.Windows.Forms.Button verifyPIIBtn;
+        private System.ComponentModel.BackgroundWorker verifyPIIBackgroundWorker;
     }
 }
 

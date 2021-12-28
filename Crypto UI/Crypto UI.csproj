@@ -5,11 +5,15 @@
     <TargetFramework>net5.0-windows</TargetFramework>
     <RootNamespace>Crypto_UI</RootNamespace>
     <UseWindowsForms>true</UseWindowsForms>
-    <PackageId>Cipher Tool</PackageId>
-    <Authors>Cipher Tool</Authors>
-    <Company>Cipher Tool</Company>
+    <PackageId>CipherTool</PackageId>
+    <Authors>Puneet Sharma</Authors>
+    <Company>Duck Creek Technologies</Company>
     <Product>Cipher Tool</Product>
-    <AssemblyName>Cipher Tool</AssemblyName>
+    <AssemblyName>CipherTool</AssemblyName>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>Encrypt-Decrypt-Utility_TemporaryKey.pfx</AssemblyOriginatorKeyFile>
+    <DelaySign>false</DelaySign>
+    <StartupObject>Crypto_UI.Program</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,8 +21,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\OneDrive - Duck Creek Technologies LLC\repos\DecryptPgp\PgpWrapperLibrary\PgpWrapperLibrary.csproj" />
-    <ProjectReference Include="..\EncryptDecryptTrippleDES\EncryptDecryptTrippleDES.csproj" />
+    <ProjectReference Include="..\..\..\..\OneDrive - Duck Creek Technologies LLC\repos\DecryptPgp\PgpWrapperLibrary\PgpWrapperLibrary.csproj">
+      <Private>true</Private>
+      <CopyLocalSatelliteAssemblies>true</CopyLocalSatelliteAssemblies>
+    </ProjectReference>
+    <ProjectReference Include="..\EncryptDecryptTrippleDES\EncryptDecryptTrippleDES.csproj">
+      <Private>true</Private>
+      <CopyLocalSatelliteAssemblies>true</CopyLocalSatelliteAssemblies>
+    </ProjectReference>
   </ItemGroup>
 
   <ItemGroup>

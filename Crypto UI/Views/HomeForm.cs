@@ -245,7 +245,7 @@ namespace Crypto_UI
                 }
                 else
                 {
-                    colNumbers.Append(Convert.ToInt32(colIndexTxtBox.Text));
+                    colNumbers.Add(Convert.ToInt32(colIndexTxtBox.Text));
                 }
                 int skipRows = Convert.ToInt32(rowsSkipTxtBox.Text);
                 FileInfo fileInfo = new FileInfo(filePath);
@@ -311,10 +311,12 @@ namespace Crypto_UI
                                 string[] col = line.Split(delimiter);
                                 foreach (int colIndex in columnIndex)
                                 {
-                                    string replacedWord = toPerform == "Decrypt" ? adapter.Decrypt(col[colIndex]) : adapter.Encrypt(col[colIndex]);
-                                    line = line.Replace(col[colIndex].Trim(), replacedWord);
+                                    if(!(col[colIndex].Trim() == "" || col[colIndex].Trim() == "NULL"))
+                                    {
+                                        string replacedWord = toPerform == "Decrypt" ? adapter.Decrypt(col[colIndex]) : adapter.Encrypt(col[colIndex]);
+                                        line = line.Replace(col[colIndex].Trim(), replacedWord);
+                                    }
                                 }
-
                                 output.WriteLine(line);
                             }
                             catch (Exception ex)

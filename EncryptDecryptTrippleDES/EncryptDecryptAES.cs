@@ -13,8 +13,9 @@ namespace EncryptDecryptTrippleDES
             byte[] keyArr;
             byte[] cipherTextArr = Convert.FromBase64String(message);
             AesCryptoServiceProvider svcProvider = new AesCryptoServiceProvider();
-            AppSettingsReader settingsReader = new AppSettingsReader();
-            string cipherKey = settingsReader.GetValue("cipherKey", typeof(String)).ToString();
+            //AppSettingsReader settingsReader = new AppSettingsReader();
+            //string cipherKey = settingsReader.GetValue("cipherKey", typeof(String)).ToString();
+            string cipherKey = "POne";
             //keyArr = UTF8Encoding.UTF8.GetBytes(cipherKey);
             MD5CryptoServiceProvider hashmd5 = new MD5CryptoServiceProvider();
             keyArr = hashmd5.ComputeHash(UTF8Encoding.UTF8.GetBytes(cipherKey));
@@ -33,8 +34,9 @@ namespace EncryptDecryptTrippleDES
             byte[] keyArr;
             byte[] cipherTextArr = UTF8Encoding.UTF8.GetBytes(message);
             AesCryptoServiceProvider svcProvider = new AesCryptoServiceProvider();
-            AppSettingsReader settingsReader = new AppSettingsReader();
-            string cipherKey = settingsReader.GetValue("cipherKey", typeof(String)).ToString();
+            //AppSettingsReader settingsReader = new AppSettingsReader();
+            //string cipherKey = settingsReader.GetValue("cipherKey", typeof(String)).ToString();
+            string cipherKey = "POne";
             MD5CryptoServiceProvider hashmd5 = new MD5CryptoServiceProvider();
             keyArr = hashmd5.ComputeHash(UTF8Encoding.UTF8.GetBytes(cipherKey));
             hashmd5.Clear();

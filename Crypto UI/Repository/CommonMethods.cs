@@ -29,12 +29,41 @@ namespace Crypto_UI.Repository
             }
             return ds;
         }
+        public static DataSet LoadScanConfig()
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                ds.ReadXml(AppDomain.CurrentDomain.BaseDirectory + @"\DataSource\ScanConfiguration.xml");
+            }
+            catch (Exception ex)
+            {
+
+                OSILogManager.Logger.LogError($"LoadScanConfig method failed due to :{ex.Message}");
+                OSILogManager.Logger.LogError($"LoadScanConfig method failed due to :{ex.InnerException?.Message}");
+            }
+            return ds;
+        }
 
         public static DataSet SaveDbConfig(DataSet ds)
         {
             try
             {
                 ds.WriteXml(AppDomain.CurrentDomain.BaseDirectory + @"\DataSource\DbConfiguration.xml");
+            }
+            catch (Exception ex)
+            {
+
+                OSILogManager.Logger.LogError($"LoadDbConfig method failed due to :{ex.Message}");
+                OSILogManager.Logger.LogError($"LoadDbConfig method failed due to :{ex.InnerException?.Message}");
+            }
+            return ds;
+        }
+        public static DataSet SaveScanConfig(DataSet ds)
+        {
+            try
+            {
+                ds.WriteXml(AppDomain.CurrentDomain.BaseDirectory + @"\DataSource\ScanConfiguration.xml");
             }
             catch (Exception ex)
             {

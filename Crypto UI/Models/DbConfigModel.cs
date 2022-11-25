@@ -8,6 +8,9 @@ namespace Crypto_UI.Models
 {
     public class DbConfigModel
     {
+
+        public string DisplayName { get; set; }
+
         public string ServerName { get; set; }
 
         public string AuthenticationType { get; set; }
@@ -18,4 +21,16 @@ namespace Crypto_UI.Models
 
         public string DatabaseName { get; set; }
     }
+
+    public class ScanConfigModel
+    {
+        public string TableName { get; set; }
+
+        public string ColumnName { get; set; }
+
+        public string KeyColName { get; set; }
+
+        public string Algorithm { get; set; }
+    }
+
 }

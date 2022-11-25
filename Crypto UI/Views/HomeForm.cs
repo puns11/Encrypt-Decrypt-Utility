@@ -18,6 +18,7 @@ namespace Crypto_UI
     {
         public string dbBasedSelFnComboBoxText { get; set; }
         public string envComboBoxText { get; set; }
+        public string serverName { get; set; }
         public string tblNameComboBoxText { get; set; }
         public string colNameComboBoxText { get; set; }
         public bool dbBasedTrippleDesRadBtnChecked { get; set; }
@@ -25,12 +26,14 @@ namespace Crypto_UI
         public string dbBasedTrippleDesRadBtnText { get; set; }
         public string keyColNameText { get; set; }
         public bool isBackRequired { get; set; }
+        public StringBuilder logMessages = null;
         public List<string> tblList { get; set; }
 
         public bool isPIIVerified { get; set; }
         public HomeForm()
         {
             InitializeComponent();
+            logMessages = new StringBuilder();
             tblList = new List<string>();
             backgroundWorker.WorkerReportsProgress = true;
             backgroundWorker.DoWork += new DoWorkEventHandler(backgroundWorker_DoWork);
@@ -61,16 +64,44 @@ namespace Crypto_UI
 
         private void verifyPIIBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            string cryptoType = dbBasedTrippleDesRadBtnChecked ? dbBasedTrippleDesRadBtnText : dbBasedAesRadBtnText;
-            isPIIVerified = Repository.DAL.VerifyPII(envComboBoxText, tblNameComboBoxText, colNameComboBoxText, keyColNameText, cryptoType, verifyPIIBackgroundWorker);
-            if(isPIIVerified)
+            
+            var ds = Repository.CommonMethods.LoadDbConfig();
+            var dbConfigModel = Repository.CommonMethods.ConvertDataTable<Models.DbConfigModel>(ds.Tables[0]);
+            string serverName = dbConfigModel.Find(x => x.DisplayName == envComboBoxText).ServerName;
+            var isFailed = false;
+            var scanDs = Repository.CommonMethods.LoadScanConfig();
+            var scanConfigModel = Repository.CommonMethods.ConvertDataTable<Models.ScanConfigModel>(scanDs.Tables[0]);
+            foreach (var item in scanConfigModel)
             {
-                MessageBox.Show($"All data in given column is encrypted with {cryptoType} algorithm.","Success",MessageBoxButtons.OK,MessageBoxIcon.Information);
+                tblNameComboBoxText = item.TableName;
+                colNameComboBoxText = item.ColumnName;
+                keyColNameText = item.KeyColName;
+                string cryptoType = item.Algorithm;
+                isPIIVerified = Repository.DAL.VerifyPII(serverName, tblNameComboBoxText, colNameComboBoxText, keyColNameText, cryptoType, verifyPIIBackgroundWorker);
+                
+                if (isPIIVerified)
+                {
+                    
+                    logMessages.AppendLine($"Datatable {tblNameComboBoxText} and column {colNameComboBoxText} is secured with {cryptoType} algorithm.");
+                    //MessageBox.Show($"Datatable {tblNameComboBoxText} is secured with {cryptoType} algorithm.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    logMessages.AppendLine($"Data is not secured in table {tblNameComboBoxText} and column {colNameComboBoxText}. {Environment.NewLine} Review application logs to find details.");
+                    isFailed = true;                    
+                }
+            }
+
+            if(isFailed)
+            {
+                MessageBox.Show($"Data is not secured. {Environment.NewLine} Review application logs to find details.", "Failure", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             else
             {
-                MessageBox.Show($"Not all of data in given column is encrypted. {Environment.NewLine} Review application logs to find details.", "Failure", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show($"Scan completed. There were no issues found.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+            
+            
 
         }
 
@@ -89,6 +120,7 @@ namespace Crypto_UI
             {
                 item.Enabled = true;
             }
+            scanBtn.Enabled = true;
             tblNameComboBox.Enabled = true;
             //populate table names
             tblNameComboBox.Items.Clear();
@@ -108,6 +140,9 @@ namespace Crypto_UI
             colNameComboBoxText = colNameComboBox.Text;
             tblNameComboBoxText = tblNameComboBox.Text;
             envComboBoxText = envComboBox.Text;
+            var ds = Repository.CommonMethods.LoadDbConfig();
+            var dbConfigModel = Repository.CommonMethods.ConvertDataTable<Models.DbConfigModel>(ds.Tables[0]);
+            serverName = dbConfigModel.Find(x => x.DisplayName == envComboBoxText).ServerName;
             dbBasedSelFnComboBoxText = dbBasedSelFnComboBox.Text;
             keyColNameText = colNameComboBox.SelectedValue.ToString();
             if(string.IsNullOrEmpty(keyColNameText))
@@ -128,10 +163,11 @@ namespace Crypto_UI
         {
             var ds = Repository.CommonMethods.LoadDbConfig();
             var dbConfigModel = Repository.CommonMethods.ConvertDataTable<Models.DbConfigModel>(ds.Tables[0]);
-            if (Repository.CommonMethods.ConnectDb(dbConfigModel.Find(x => x.ServerName == envComboBoxText)))
+            if (Repository.CommonMethods.ConnectDb(dbConfigModel.Find(x => x.DisplayName == envComboBoxText)))
             {
                 MessageBox.Show("Connection Successful");
-                tblList = Repository.CommonMethods.GetTables(envComboBoxText, sqlConBackGroundWorker);
+                serverName = dbConfigModel.Find(x => x.DisplayName == envComboBoxText).ServerName;
+                tblList = Repository.CommonMethods.GetTables(serverName, sqlConBackGroundWorker);
             }
             else
             {
@@ -149,7 +185,7 @@ namespace Crypto_UI
                 string tblName = tblNameComboBoxText;
                 string colName = colNameComboBoxText;
                 string keyColName = keyColNameText;
-                string serverName = envComboBoxText;
+                string srvrName = serverName;
                 bool isBackUpRequired = isBackRequired;
                 if (string.IsNullOrEmpty(keyColName))
                 {
@@ -159,7 +195,7 @@ namespace Crypto_UI
 
                 if (performFunction == "Encrypt" || performFunction == "Decrypt")
                 {
-                    PerformDbEncryptionDecryption(serverName, tblName, colName, keyColName, performFunction, cryptoType, isBackUpRequired);
+                    PerformDbEncryptionDecryption(srvrName, tblName, colName, keyColName, performFunction, cryptoType, isBackUpRequired);
                 }
                 else
                 {
@@ -178,6 +214,7 @@ namespace Crypto_UI
         void backgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             toolStripProgressBar1.Value = e.ProgressPercentage;
+            logMsgTxtBox.Text = logMessages.ToString();
         }
         private void button2_Click(object sender, EventArgs e)
         {
@@ -245,7 +282,7 @@ namespace Crypto_UI
                 }
                 else
                 {
-                    colNumbers.Append(Convert.ToInt32(colIndexTxtBox.Text));
+                    colNumbers.Add(Convert.ToInt32(colIndexTxtBox.Text));
                 }
                 int skipRows = Convert.ToInt32(rowsSkipTxtBox.Text);
                 FileInfo fileInfo = new FileInfo(filePath);
@@ -382,6 +419,19 @@ namespace Crypto_UI
             envComboBox.DataSource = new BindingSource(ds.Tables[0], null);
             envComboBox.DisplayMember = ds.Tables[0].Columns[0].ColumnName;
             envComboBox.DisplayMember = ds.Tables[0].Columns[0].ColumnName;
+            scanEnvComboBox.DataSource = new BindingSource(ds.Tables[0], null);
+            scanEnvComboBox.DisplayMember = ds.Tables[0].Columns[0].ColumnName;
+            scanEnvComboBox.DisplayMember = ds.Tables[0].Columns[0].ColumnName;
+            
+        }
+        private void LoadScanList()
+        {
+            DataSet ds = new DataSet();
+            ds = Repository.CommonMethods.LoadScanConfig();
+            List<Models.ScanConfigModel> configModel = new List<Models.ScanConfigModel>();
+            configModel = Repository.CommonMethods.ConvertDataTable<Models.ScanConfigModel>(ds.Tables[0]);
+            
+
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -391,6 +441,10 @@ namespace Crypto_UI
         void dbConfigSaveBtn_Click(object sender, EventArgs e)
         {
             LoadEnvList();
+        }
+        void scanConfigSaveBtn_Click(object sender, EventArgs e)
+        {
+            LoadScanList();
         }
         private void signAsBrowseBtn_Click(object sender, EventArgs e)
         {
@@ -474,11 +528,7 @@ namespace Crypto_UI
 
         private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            DbConfigurationForm form1 = new DbConfigurationForm();
-            form1.dbConfigSaveBtn_Click += new EventHandler(dbConfigSaveBtn_Click);
-            form1.WindowState = FormWindowState.Normal;
-            form1.Show();
-            form1.StartPosition = FormStartPosition.CenterScreen;
+            
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -528,11 +578,11 @@ namespace Crypto_UI
             dbBasedSaveBtn.Enabled = false;
             var ds = Repository.CommonMethods.LoadDbConfig();
             var dbConfigModel = Repository.CommonMethods.ConvertDataTable<Models.DbConfigModel>(ds.Tables[0]);
-            if (Repository.CommonMethods.ConnectDb(dbConfigModel.Find(x => x.ServerName == envComboBox.Text)))
+            if (Repository.CommonMethods.ConnectDb(dbConfigModel.Find(x => x.DisplayName == envComboBox.Text)))
             {
                 //populate table names
                 Dictionary<string, List<TableContainer>> colDict = new Dictionary<string, List<TableContainer>>();
-                colDict = Repository.CommonMethods.GetSourceTables(envComboBox.Text, tblName);
+                colDict = Repository.CommonMethods.GetSourceTables(dbConfigModel.Find(x => x.DisplayName == envComboBox.Text).ServerName, tblName);
                 foreach (var item in colDict)
                 {
 
@@ -647,7 +697,9 @@ namespace Crypto_UI
                     return;
                 }
                 ViewDataForm frm = new ViewDataForm();
-                frm.ServerName = envComboBox.Text;
+                var ds = Repository.CommonMethods.LoadDbConfig();
+                var dbConfigModel = Repository.CommonMethods.ConvertDataTable<Models.DbConfigModel>(ds.Tables[0]);
+                frm.ServerName = dbConfigModel.Find(x => x.DisplayName == envComboBox.Text).ServerName;
                 frm.TableName = tblNameComboBox.Text;
                 frm.ColumnName = colNameComboBox.SelectedValue.ToString() + "," + colNameComboBox.Text;
                 frm.Show();
@@ -675,6 +727,60 @@ namespace Crypto_UI
             verifyPIIBackgroundWorker.RunWorkerAsync();
 
 
+        }
+
+        private void scanTabPage_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label9_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            logMsgTxtBox.Text = string.Empty;
+            envComboBoxText = scanEnvComboBox.Text;
+            foreach (Control item in this.Controls)
+            {
+                item.Enabled = false;
+            }
+            toolStripProgressBar1.Visible = true;
+            logMsgLbl.Visible = true;
+            logMsgTxtBox.Visible = true;
+            verifyPIIBackgroundWorker.RunWorkerAsync();
+        }
+
+        private void button2_Click_1(object sender, EventArgs e)
+        {
+            envComboBoxText = scanEnvComboBox.Text;
+            toolStripProgressBar1.Visible = true;
+
+            foreach (Control item in this.Controls)
+            {
+                item.Enabled = false;
+            }
+            sqlConBackGroundWorker.RunWorkerAsync();
+        }
+
+        private void databaseConfigurationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DbConfigurationForm form1 = new DbConfigurationForm();
+            form1.dbConfigSaveBtn_Click += new EventHandler(dbConfigSaveBtn_Click);
+            form1.WindowState = FormWindowState.Normal;
+            form1.Show();
+            form1.StartPosition = FormStartPosition.CenterScreen;
+        }
+
+        private void scanConfigurationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ScanConfigurationForm form1 = new ScanConfigurationForm();
+            form1.scanDbConfigSaveBtn_Click += new EventHandler(scanConfigSaveBtn_Click);
+            form1.WindowState = FormWindowState.Normal;
+            form1.Show();
+            form1.StartPosition = FormStartPosition.CenterScreen;
         }
     }
 }

@@ -1,0 +1,21 @@
+<?xml version="1.0" standalone="yes"?>
+<ScanModel>
+  <ScanConfigModel>
+    <TableName>bank_information</TableName>
+    <ColumnName>bank_account</ColumnName>
+    <KeyColName>bank_information_id</KeyColName>
+    <Algorithm>TrippleDES</Algorithm>
+  </ScanConfigModel>
+  <ScanConfigModel>
+    <TableName>bank_information</TableName>
+    <ColumnName>bank_routing</ColumnName>
+    <KeyColName>bank_information_id</KeyColName>
+    <Algorithm>TrippleDES</Algorithm>
+  </ScanConfigModel>
+  <ScanConfigModel>
+    <TableName>bank_information</TableName>
+    <ColumnName>bank_name</ColumnName>
+    <KeyColName>bank_information_id</KeyColName>
+    <Algorithm>TrippleDES</Algorithm>
+  </ScanConfigModel>
+</ScanModel>

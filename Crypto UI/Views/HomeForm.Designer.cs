@@ -86,6 +86,13 @@ namespace Crypto_UI
             this.label12 = new System.Windows.Forms.Label();
             this.dbBasedSelFnComboBox = new System.Windows.Forms.ComboBox();
             this.label13 = new System.Windows.Forms.Label();
+            this.scanTabPage = new System.Windows.Forms.TabPage();
+            this.logMsgLbl = new System.Windows.Forms.Label();
+            this.logMsgTxtBox = new System.Windows.Forms.TextBox();
+            this.button2 = new System.Windows.Forms.Button();
+            this.scanBtn = new System.Windows.Forms.Button();
+            this.scanEnvComboBox = new System.Windows.Forms.ComboBox();
+            this.label9 = new System.Windows.Forms.Label();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.inputFileEncryptFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.encryptFileDialog = new System.Windows.Forms.OpenFileDialog();
@@ -97,6 +104,8 @@ namespace Crypto_UI
             this.textBasedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.databaseConfigurationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.scanConfigurationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -116,6 +125,7 @@ namespace Crypto_UI
             this.signGroupBox.SuspendLayout();
             this.outputGroupBox.SuspendLayout();
             this.dbTabpage.SuspendLayout();
+            this.scanTabPage.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -126,6 +136,7 @@ namespace Crypto_UI
             this.tabControl.Controls.Add(this.txtTabPage);
             this.tabControl.Controls.Add(this.fileTabpage);
             this.tabControl.Controls.Add(this.dbTabpage);
+            this.tabControl.Controls.Add(this.scanTabPage);
             this.tabControl.Location = new System.Drawing.Point(0, 27);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
@@ -573,11 +584,12 @@ namespace Crypto_UI
             this.verifyPIIBtn.BackgroundImage = global::Crypto_UI.Properties.Resources.icons8_validation_50;
             this.verifyPIIBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.verifyPIIBtn.Enabled = false;
-            this.verifyPIIBtn.Location = new System.Drawing.Point(464, 95);
+            this.verifyPIIBtn.Location = new System.Drawing.Point(465, 127);
             this.verifyPIIBtn.Name = "verifyPIIBtn";
             this.verifyPIIBtn.Size = new System.Drawing.Size(25, 23);
             this.verifyPIIBtn.TabIndex = 42;
             this.verifyPIIBtn.UseVisualStyleBackColor = true;
+            this.verifyPIIBtn.Visible = false;
             this.verifyPIIBtn.Click += new System.EventHandler(this.verifyPIIBtn_Click);
             // 
             // viewDbDataBtn
@@ -585,7 +597,7 @@ namespace Crypto_UI
             this.viewDbDataBtn.BackgroundImage = global::Crypto_UI.Properties.Resources.icons8_table_24;
             this.viewDbDataBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.viewDbDataBtn.Enabled = false;
-            this.viewDbDataBtn.Location = new System.Drawing.Point(424, 95);
+            this.viewDbDataBtn.Location = new System.Drawing.Point(465, 94);
             this.viewDbDataBtn.Name = "viewDbDataBtn";
             this.viewDbDataBtn.Size = new System.Drawing.Size(25, 23);
             this.viewDbDataBtn.TabIndex = 41;
@@ -600,7 +612,7 @@ namespace Crypto_UI
             this.colNameComboBox.FormattingEnabled = true;
             this.colNameComboBox.Location = new System.Drawing.Point(100, 95);
             this.colNameComboBox.Name = "colNameComboBox";
-            this.colNameComboBox.Size = new System.Drawing.Size(308, 23);
+            this.colNameComboBox.Size = new System.Drawing.Size(359, 23);
             this.colNameComboBox.TabIndex = 40;
             // 
             // tblNameComboBox
@@ -728,6 +740,88 @@ namespace Crypto_UI
             this.label13.TabIndex = 27;
             this.label13.Text = "Select Function";
             // 
+            // scanTabPage
+            // 
+            this.scanTabPage.Controls.Add(this.logMsgLbl);
+            this.scanTabPage.Controls.Add(this.logMsgTxtBox);
+            this.scanTabPage.Controls.Add(this.button2);
+            this.scanTabPage.Controls.Add(this.scanBtn);
+            this.scanTabPage.Controls.Add(this.scanEnvComboBox);
+            this.scanTabPage.Controls.Add(this.label9);
+            this.scanTabPage.Location = new System.Drawing.Point(4, 24);
+            this.scanTabPage.Name = "scanTabPage";
+            this.scanTabPage.Padding = new System.Windows.Forms.Padding(3);
+            this.scanTabPage.Size = new System.Drawing.Size(501, 261);
+            this.scanTabPage.TabIndex = 4;
+            this.scanTabPage.Text = "Scan Database";
+            this.scanTabPage.UseVisualStyleBackColor = true;
+            this.scanTabPage.Click += new System.EventHandler(this.scanTabPage_Click);
+            // 
+            // logMsgLbl
+            // 
+            this.logMsgLbl.AutoSize = true;
+            this.logMsgLbl.Location = new System.Drawing.Point(8, 95);
+            this.logMsgLbl.Name = "logMsgLbl";
+            this.logMsgLbl.Size = new System.Drawing.Size(32, 15);
+            this.logMsgLbl.TabIndex = 48;
+            this.logMsgLbl.Text = "Logs";
+            this.logMsgLbl.Visible = false;
+            // 
+            // logMsgTxtBox
+            // 
+            this.logMsgTxtBox.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.logMsgTxtBox.Location = new System.Drawing.Point(6, 113);
+            this.logMsgTxtBox.Multiline = true;
+            this.logMsgTxtBox.Name = "logMsgTxtBox";
+            this.logMsgTxtBox.ReadOnly = true;
+            this.logMsgTxtBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.logMsgTxtBox.Size = new System.Drawing.Size(456, 131);
+            this.logMsgTxtBox.TabIndex = 47;
+            this.logMsgTxtBox.Visible = false;
+            // 
+            // button2
+            // 
+            this.button2.BackgroundImage = global::Crypto_UI.Properties.Resources.icons8_connected_30;
+            this.button2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.button2.Location = new System.Drawing.Point(438, 27);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(24, 23);
+            this.button2.TabIndex = 46;
+            this.button2.TextImageRelation = System.Windows.Forms.TextImageRelation.TextAboveImage;
+            this.button2.UseVisualStyleBackColor = false;
+            this.button2.Click += new System.EventHandler(this.button2_Click_1);
+            // 
+            // scanBtn
+            // 
+            this.scanBtn.BackgroundImage = global::Crypto_UI.Properties.Resources.icons8_validation_50;
+            this.scanBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.scanBtn.Enabled = false;
+            this.scanBtn.Location = new System.Drawing.Point(123, 56);
+            this.scanBtn.Name = "scanBtn";
+            this.scanBtn.Size = new System.Drawing.Size(32, 30);
+            this.scanBtn.TabIndex = 45;
+            this.scanBtn.UseVisualStyleBackColor = true;
+            this.scanBtn.Click += new System.EventHandler(this.button1_Click_1);
+            // 
+            // scanEnvComboBox
+            // 
+            this.scanEnvComboBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.scanEnvComboBox.FormattingEnabled = true;
+            this.scanEnvComboBox.Location = new System.Drawing.Point(123, 27);
+            this.scanEnvComboBox.Name = "scanEnvComboBox";
+            this.scanEnvComboBox.Size = new System.Drawing.Size(309, 23);
+            this.scanEnvComboBox.TabIndex = 44;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(8, 30);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(109, 15);
+            this.label9.TabIndex = 43;
+            this.label9.Text = "Select Environment";
+            this.label9.Click += new System.EventHandler(this.label9_Click);
+            // 
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
@@ -796,10 +890,27 @@ namespace Crypto_UI
             // 
             // settingsToolStripMenuItem
             // 
+            this.settingsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.databaseConfigurationToolStripMenuItem,
+            this.scanConfigurationToolStripMenuItem});
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
             this.settingsToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
             this.settingsToolStripMenuItem.Text = "Settings";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
+            // 
+            // databaseConfigurationToolStripMenuItem
+            // 
+            this.databaseConfigurationToolStripMenuItem.Name = "databaseConfigurationToolStripMenuItem";
+            this.databaseConfigurationToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
+            this.databaseConfigurationToolStripMenuItem.Text = "Server Configuration";
+            this.databaseConfigurationToolStripMenuItem.Click += new System.EventHandler(this.databaseConfigurationToolStripMenuItem_Click);
+            // 
+            // scanConfigurationToolStripMenuItem
+            // 
+            this.scanConfigurationToolStripMenuItem.Name = "scanConfigurationToolStripMenuItem";
+            this.scanConfigurationToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
+            this.scanConfigurationToolStripMenuItem.Text = "Scan Configuration";
+            this.scanConfigurationToolStripMenuItem.Click += new System.EventHandler(this.scanConfigurationToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
@@ -893,6 +1004,8 @@ namespace Crypto_UI
             this.outputGroupBox.PerformLayout();
             this.dbTabpage.ResumeLayout(false);
             this.dbTabpage.PerformLayout();
+            this.scanTabPage.ResumeLayout(false);
+            this.scanTabPage.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
@@ -982,6 +1095,16 @@ namespace Crypto_UI
         private System.Windows.Forms.Button viewDbDataBtn;
         private System.Windows.Forms.Button verifyPIIBtn;
         private System.ComponentModel.BackgroundWorker verifyPIIBackgroundWorker;
+        private System.Windows.Forms.TabPage scanTabPage;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.ComboBox scanEnvComboBox;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button scanBtn;
+        private System.Windows.Forms.ToolStripMenuItem databaseConfigurationToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem scanConfigurationToolStripMenuItem;
+        private System.Windows.Forms.Label logMsgLbl;
+        private System.Windows.Forms.TextBox logMsgTxtBox;
     }
 }
 

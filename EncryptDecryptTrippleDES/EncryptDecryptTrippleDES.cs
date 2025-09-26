@@ -17,8 +17,7 @@ namespace EncryptDecryptTrippleDES
             byte[] keyArr;
             byte[] cipherTextArr = Convert.FromBase64String(message);
             TripleDESCryptoServiceProvider svcProvider = new TripleDESCryptoServiceProvider();            
-            AppSettingsReader settingsReader = new AppSettingsReader();
-            string cipherKey = settingsReader.GetValue("cipherKey", typeof(String)).ToString();
+            string cipherKey = ConfigurationManager.AppSettings["cipherKey"] ?? "POne";
             //keyArr = UTF8Encoding.UTF8.GetBytes(cipherKey);
             MD5CryptoServiceProvider hashmd5 = new MD5CryptoServiceProvider();
             keyArr = hashmd5.ComputeHash(UTF8Encoding.UTF8.GetBytes(cipherKey));
@@ -37,8 +36,7 @@ namespace EncryptDecryptTrippleDES
             byte[] keyArr;
             byte[] cipherTextArr = UTF8Encoding.UTF8.GetBytes(message);
             TripleDESCryptoServiceProvider svcProvider = new TripleDESCryptoServiceProvider();
-            AppSettingsReader settingsReader = new AppSettingsReader();
-            string cipherKey = settingsReader.GetValue("cipherKey", typeof(String)).ToString();
+            string cipherKey = ConfigurationManager.AppSettings["cipherKey"] ?? "POne";
             MD5CryptoServiceProvider hashmd5 = new MD5CryptoServiceProvider();
             keyArr = hashmd5.ComputeHash(UTF8Encoding.UTF8.GetBytes(cipherKey));
             hashmd5.Clear();

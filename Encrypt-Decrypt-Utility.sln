@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EncryptDecryptTrippleDES", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crypto UI", "Crypto UI\Crypto UI.csproj", "{5F480FF8-C5FA-40AC-B2C3-318E9AB3972E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PgpWrapperLibrary", "..\..\..\OneDrive - Duck Creek Technologies LLC\repos\DecryptPgp\PgpWrapperLibrary\PgpWrapperLibrary.csproj", "{173200A3-A28D-42C3-BE48-2D755B3DB9D7}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,10 +27,6 @@ Global
 		{5F480FF8-C5FA-40AC-B2C3-318E9AB3972E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5F480FF8-C5FA-40AC-B2C3-318E9AB3972E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5F480FF8-C5FA-40AC-B2C3-318E9AB3972E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{173200A3-A28D-42C3-BE48-2D755B3DB9D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{173200A3-A28D-42C3-BE48-2D755B3DB9D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{173200A3-A28D-42C3-BE48-2D755B3DB9D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{173200A3-A28D-42C3-BE48-2D755B3DB9D7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

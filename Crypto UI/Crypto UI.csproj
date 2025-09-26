@@ -10,21 +10,15 @@
     <Company>Duck Creek Technologies</Company>
     <Product>Cipher Tool</Product>
     <AssemblyName>CipherTool</AssemblyName>
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>Encrypt-Decrypt-Utility_TemporaryKey.pfx</AssemblyOriginatorKeyFile>
-    <DelaySign>false</DelaySign>
     <StartupObject>Crypto_UI.Program</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="BouncyCastle.OpenPGP" Version="2.0.0.1" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\OneDrive - Duck Creek Technologies LLC\repos\DecryptPgp\PgpWrapperLibrary\PgpWrapperLibrary.csproj">
-      <Private>true</Private>
-      <CopyLocalSatelliteAssemblies>true</CopyLocalSatelliteAssemblies>
-    </ProjectReference>
     <ProjectReference Include="..\EncryptDecryptTrippleDES\EncryptDecryptTrippleDES.csproj">
       <Private>true</Private>
       <CopyLocalSatelliteAssemblies>true</CopyLocalSatelliteAssemblies>
